@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
-import { BookOpen, FileText, Sparkles } from "lucide-react";
+import { FileText, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-bg.jpg";
-import mathIcon from "@/assets/math-notes-icon.jpg";
 import readingIcon from "@/assets/reading-notes-icon.jpg";
 import researchIcon from "@/assets/research-icon.jpg";
 
@@ -37,34 +36,33 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Statistics Banner */}
+      <section className="py-12 px-4 bg-primary text-primary-foreground">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid md:grid-cols-3 gap-8 text-center">
+            <div>
+              <div className="text-4xl font-bold mb-2">15+</div>
+              <div className="text-lg opacity-90">Academic Notes</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold mb-2">5+</div>
+              <div className="text-lg opacity-90">Research Papers</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold mb-2">4</div>
+              <div className="text-lg opacity-90">Active Fields</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Content Sections */}
       <section className="py-20 px-4 bg-background">
         <div className="container mx-auto max-w-6xl">
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Math Notes */}
-            <Link to="/math-notes" className="content-card group">
-              <div className="aspect-square relative overflow-hidden">
-                <img 
-                  src={mathIcon} 
-                  alt="Mathematical analysis visualization" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <BookOpen className="w-5 h-5 text-accent" />
-                  <h2 className="font-display text-2xl font-bold">Math Notes</h2>
-                </div>
-                <p className="text-muted-foreground">
-                  Comprehensive LaTeX notes on advanced mathematics textbooks including analysis, 
-                  algebra, topology, and more.
-                </p>
-              </div>
-            </Link>
-
-            {/* Reading Notes */}
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Academic Notes */}
             <Link to="/reading-notes" className="content-card group">
-              <div className="aspect-square relative overflow-hidden">
+              <div className="aspect-[4/3] relative overflow-hidden">
                 <img 
                   src={readingIcon} 
                   alt="Academic reading materials" 
@@ -74,18 +72,24 @@ const Home = () => {
               <div className="p-6">
                 <div className="flex items-center gap-2 mb-3">
                   <FileText className="w-5 h-5 text-accent" />
-                  <h2 className="font-display text-2xl font-bold">Reading Notes</h2>
+                  <h2 className="font-display text-2xl font-bold">Academic Notes</h2>
                 </div>
-                <p className="text-muted-foreground">
-                  Critical annotations and summaries of influential academic papers, 
-                  books, and research across multiple disciplines.
+                <p className="text-muted-foreground mb-4">
+                  Comprehensive notes and critical annotations on academic literature across 
+                  mathematics, physics, economics, computer science, and research papers. 
+                  Each entry includes detailed summaries, key takeaways, and proper citations.
                 </p>
+                <div className="flex gap-2 flex-wrap">
+                  <span className="px-3 py-1 bg-accent/10 text-accent rounded-full text-sm">Mathematics</span>
+                  <span className="px-3 py-1 bg-accent/10 text-accent rounded-full text-sm">Economics</span>
+                  <span className="px-3 py-1 bg-accent/10 text-accent rounded-full text-sm">CS Theory</span>
+                </div>
               </div>
             </Link>
 
             {/* Research & Writing */}
             <Link to="/research" className="content-card group">
-              <div className="aspect-square relative overflow-hidden">
+              <div className="aspect-[4/3] relative overflow-hidden">
                 <img 
                   src={researchIcon} 
                   alt="Research and data analysis" 
@@ -97,37 +101,33 @@ const Home = () => {
                   <Sparkles className="w-5 h-5 text-accent" />
                   <h2 className="font-display text-2xl font-bold">Research & Writing</h2>
                 </div>
-                <p className="text-muted-foreground">
-                  Original research, essays, and analysis on economics, computer science, 
-                  and mathematical applications.
+                <p className="text-muted-foreground mb-4">
+                  Original research papers, analytical essays, and professional insights on 
+                  topics in economics, computational theory, mathematical applications, and more. 
+                  Rigorous analysis meets practical applications.
                 </p>
+                <div className="flex gap-2 flex-wrap">
+                  <span className="px-3 py-1 bg-accent/10 text-accent rounded-full text-sm">Research Papers</span>
+                  <span className="px-3 py-1 bg-accent/10 text-accent rounded-full text-sm">Analysis</span>
+                  <span className="px-3 py-1 bg-accent/10 text-accent rounded-full text-sm">Insights</span>
+                </div>
               </div>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Featured Work Section */}
-      <section className="py-20 px-4 bg-muted/30">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="font-display text-4xl font-bold text-center mb-12">
-            Current Focus
-          </h2>
-          <div className="content-card p-8">
-            <h3 className="font-display text-2xl font-bold mb-4">
-              Advanced Real Analysis
-            </h3>
-            <p className="text-muted-foreground mb-4">
-              Working through Rudin's "Principles of Mathematical Analysis" with detailed 
-              proofs and supplementary exercises. Focus on measure theory, Lebesgue integration, 
-              and functional analysis applications.
-            </p>
-            <Link to="/math-notes">
-              <Button variant="outline" className="mt-2">
-                Explore Math Notes
-              </Button>
-            </Link>
-          </div>
+      {/* Mission Statement */}
+      <section className="py-16 px-4 bg-muted/30">
+        <div className="container mx-auto max-w-4xl text-center">
+          <h2 className="font-display text-3xl font-bold mb-6">Academic Mission</h2>
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            This portfolio documents my journey through rigorous mathematical study and its 
+            applications to economics and computer science. My goal is to bridge theoretical 
+            foundations with practical insights, contributing to both academic discourse and 
+            real-world problem-solving. Every note, paper, and project represents a commitment 
+            to deep understanding and intellectual growth.
+          </p>
         </div>
       </section>
     </div>
