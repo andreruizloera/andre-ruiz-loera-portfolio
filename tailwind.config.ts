@@ -69,7 +69,8 @@ export default {
         },
       },
       fontFamily: {
-        display: ['Playfair Display', 'serif'],
+        display: ['Inter', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
       },
       borderRadius: {
