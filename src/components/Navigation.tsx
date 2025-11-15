@@ -9,9 +9,12 @@ const Navigation = () => {
 
   const navItems = [
     { path: "/", label: "Home" },
-    { path: "/reading-notes", label: "Academic Notes" },
-    { path: "/research", label: "Research & Writing" },
     { path: "/about", label: "About" },
+    { path: "/research", label: "Research" },
+    { path: "/reading-notes", label: "Academic Notes" },
+    { path: "/projects", label: "Projects" },
+    { path: "/cv", label: "CV" },
+    { path: "/contact", label: "Contact" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
