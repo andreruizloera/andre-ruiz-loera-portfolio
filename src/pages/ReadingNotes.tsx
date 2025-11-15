@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { FileText, Calendar, Search, Tag, ExternalLink } from "lucide-react";
+import { FileText, Calendar, Search, Tag, ExternalLink, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface ReadingNote {
   title: string;
@@ -19,6 +20,7 @@ interface ReadingNote {
 const ReadingNotes = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState("date-desc");
 
   const readings: ReadingNote[] = [
     {
@@ -174,7 +176,7 @@ const ReadingNotes = () => {
   ];
 
   // Filter readings based on category and search
-  const filteredReadings = readings.filter((reading) => {
+  let filteredReadings = readings.filter((reading) => {
     const matchesCategory = selectedCategory === "All" || reading.category === selectedCategory;
     const matchesSearch = 
       searchQuery === "" ||
@@ -182,6 +184,26 @@ const ReadingNotes = () => {
       reading.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
       reading.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesCategory && matchesSearch;
+  });
+
+  // Sort readings
+  filteredReadings = [...filteredReadings].sort((a, b) => {
+    switch (sortBy) {
+      case "date-desc":
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      case "date-asc":
+        return new Date(a.date).getTime() - new Date(b.date).getTime();
+      case "title-asc":
+        return a.title.localeCompare(b.title);
+      case "title-desc":
+        return b.title.localeCompare(a.title);
+      case "author-asc":
+        return a.author.localeCompare(b.author);
+      case "author-desc":
+        return b.author.localeCompare(a.author);
+      default:
+        return 0;
+    }
   });
 
   // Calculate statistics
@@ -230,9 +252,9 @@ const ReadingNotes = () => {
           </div>
         </div>
 
-        {/* Search Bar */}
-        <div className="mb-6">
-          <div className="relative">
+        {/* Search and Sort Bar */}
+        <div className="mb-6 flex flex-col md:flex-row gap-4">
+          <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
               type="text"
@@ -241,6 +263,22 @@ const ReadingNotes = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 h-12 text-base"
             />
+          </div>
+          <div className="flex items-center gap-2">
+            <ArrowUpDown className="w-4 h-4 text-muted-foreground" />
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger className="w-[200px]">
+                <SelectValue placeholder="Sort by..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="date-desc">Newest First</SelectItem>
+                <SelectItem value="date-asc">Oldest First</SelectItem>
+                <SelectItem value="title-asc">Title (A-Z)</SelectItem>
+                <SelectItem value="title-desc">Title (Z-A)</SelectItem>
+                <SelectItem value="author-asc">Author (A-Z)</SelectItem>
+                <SelectItem value="author-desc">Author (Z-A)</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
 

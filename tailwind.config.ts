@@ -69,9 +69,9 @@ export default {
         },
       },
       fontFamily: {
-        display: ['Inter', 'sans-serif'],
-        sans: ['Inter', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        display: ['"Times New Roman"', 'Times', 'serif'],
+        sans: ['"Times New Roman"', 'Times', 'serif'],
+        mono: ['"Courier New"', 'Courier', 'monospace'],
       },
       borderRadius: {
         lg: "var(--radius)",
