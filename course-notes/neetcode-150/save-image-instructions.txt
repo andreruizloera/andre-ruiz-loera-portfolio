@@ -1,0 +1,10 @@
+To add the roadmap image to your document:
+
+1. Save the roadmap image as: neetcode-roadmap.png
+2. Place it in: /Users/andreruizloera/andre-ruiz-loera-portfolio/course-notes/neetcode-150/
+
+The LaTeX document is already configured to display it.
+
+Alternatively, if you have the image file somewhere else, you can:
+- Copy it to the neetcode-150 folder
+- Or tell me the path and I'll update the LaTeX to point to it

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FileText, Calendar, Search, Tag, ExternalLink, ArrowUpDown } from "lucide-react";
+import { FileText, Calendar, Search, Tag, ExternalLink, ArrowUpDown, BookOpen, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -21,6 +21,7 @@ const ReadingNotes = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("date-desc");
+  const [activeTab, setActiveTab] = useState<"readings" | "courses">("readings");
 
   const readings: ReadingNote[] = [
     {
@@ -224,6 +225,18 @@ const ReadingNotes = () => {
     }
   };
 
+  const courseNotes = [
+    {
+      code: "MATH 463",
+      title: "Mathematical Statistics",
+      semester: "Fall 2025",
+      status: "In Progress",
+      topics: ["Probability Theory", "Random Variables", "Estimation", "Hypothesis Testing"],
+      pdfUrl: "/course-notes/math463-notes.pdf",
+      lastUpdated: "2025-11",
+    },
+  ];
+
   return (
     <div className="min-h-screen py-16 px-4">
       <div className="container mx-auto max-w-6xl">
@@ -231,10 +244,40 @@ const ReadingNotes = () => {
         <header className="mb-8">
           <h1 className="font-display text-5xl font-bold mb-4">Academic Notes</h1>
           <p className="text-xl text-muted-foreground max-w-3xl">
-            Comprehensive notes and annotations on academic literature spanning mathematics, 
+            Comprehensive notes and annotations on academic literature spanning mathematics,
             physics, economics, computer science, and research papers.
           </p>
         </header>
+
+        {/* Tab Navigation */}
+        <div className="flex gap-4 mb-8 border-b">
+          <button
+            onClick={() => setActiveTab("readings")}
+            className={`pb-3 px-4 font-semibold transition-colors ${
+              activeTab === "readings"
+                ? "border-b-2 border-primary text-primary"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <FileText className="w-5 h-5" />
+              Reading Notes
+            </div>
+          </button>
+          <button
+            onClick={() => setActiveTab("courses")}
+            className={`pb-3 px-4 font-semibold transition-colors ${
+              activeTab === "courses"
+                ? "border-b-2 border-primary text-primary"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <BookOpen className="w-5 h-5" />
+              Course Notes
+            </div>
+          </button>
+        </div>
 
         {/* Statistics Banner */}
         <div className="grid grid-cols-3 gap-4 mb-8">
@@ -302,9 +345,66 @@ const ReadingNotes = () => {
           {searchQuery && ` for "${searchQuery}"`}
         </div>
 
-        {/* Reading Notes List */}
-        <div className="space-y-6">
-          {filteredReadings.length === 0 ? (
+        {/* Content based on active tab */}
+        {activeTab === "courses" ? (
+          /* Course Notes Section */
+          <div className="space-y-6">
+            {courseNotes.map((course, index) => (
+              <article key={index} className="content-card p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-start gap-3 flex-1">
+                    <BookOpen className="w-6 h-6 text-accent mt-1 flex-shrink-0" />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-1">
+                        <h2 className="font-display text-2xl font-bold">{course.code}</h2>
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(course.status)}`}>
+                          {course.status}
+                        </span>
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2">{course.title}</h3>
+                      <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-4 h-4" />
+                          {course.semester}
+                        </span>
+                        <span>Last Updated: {course.lastUpdated}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mb-4 p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold mb-2 text-sm">Topics Covered:</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {course.topics.map((topic, i) => (
+                      <span key={i} className="px-3 py-1 bg-accent/10 text-accent rounded-full text-sm">
+                        {topic}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex gap-2">
+                  <Button asChild variant="default" size="sm" className="gap-2">
+                    <a href={course.pdfUrl} target="_blank" rel="noopener noreferrer">
+                      <Download className="w-4 h-4" />
+                      Download PDF
+                    </a>
+                  </Button>
+                  <Button asChild variant="outline" size="sm" className="gap-2">
+                    <a href={course.pdfUrl} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="w-4 h-4" />
+                      View Online
+                    </a>
+                  </Button>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          /* Reading Notes List */
+          <div className="space-y-6">
+            {filteredReadings.length === 0 ? (
             <div className="content-card p-12 text-center">
               <FileText className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
               <p className="text-muted-foreground">No notes found matching your criteria.</p>
@@ -381,7 +481,8 @@ const ReadingNotes = () => {
               </article>
             ))
           )}
-        </div>
+          </div>
+        )}
 
         {/* Philosophy Section */}
         <div className="mt-12 p-6 bg-muted/50 rounded-lg">

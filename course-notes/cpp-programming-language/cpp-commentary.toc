@@ -1,0 +1,49 @@
+\contentsline {chapter}{Preface}{3}{chapter*.1}%
+\contentsline {part}{I\hspace {1em}Introductory Material}{9}{part.1}%
+\contentsline {chapter}{\numberline {1}Notes to the Reader}{11}{chapter.1}%
+\contentsline {chapter}{\numberline {2}A Tour of C++: The Basics}{13}{chapter.2}%
+\contentsline {chapter}{\numberline {3}A Tour of C++: Abstraction Mechanisms}{15}{chapter.3}%
+\contentsline {chapter}{\numberline {4}A Tour of C++: Containers and Algorithms}{17}{chapter.4}%
+\contentsline {chapter}{\numberline {5}A Tour of C++: Concurrency and Utilities}{19}{chapter.5}%
+\contentsline {part}{II\hspace {1em}Basic Facilities}{21}{part.2}%
+\contentsline {chapter}{\numberline {6}Types and Declarations}{23}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Pointers, Arrays, and References}{25}{chapter.7}%
+\contentsline {chapter}{\numberline {8}Structures, Unions, and Enumerations}{27}{chapter.8}%
+\contentsline {chapter}{\numberline {9}Statements}{29}{chapter.9}%
+\contentsline {chapter}{\numberline {10}Expressions}{31}{chapter.10}%
+\contentsline {chapter}{\numberline {11}Select Operations}{33}{chapter.11}%
+\contentsline {chapter}{\numberline {12}Functions}{35}{chapter.12}%
+\contentsline {chapter}{\numberline {13}Exception Handling}{37}{chapter.13}%
+\contentsline {chapter}{\numberline {14}Namespaces}{39}{chapter.14}%
+\contentsline {chapter}{\numberline {15}Source Files and Programs}{41}{chapter.15}%
+\contentsline {part}{III\hspace {1em}Abstraction Mechanisms}{43}{part.3}%
+\contentsline {chapter}{\numberline {16}Classes}{45}{chapter.16}%
+\contentsline {chapter}{\numberline {17}Construction, Cleanup, Copy, and Move}{47}{chapter.17}%
+\contentsline {chapter}{\numberline {18}Overloading}{49}{chapter.18}%
+\contentsline {chapter}{\numberline {19}Special Operators}{51}{chapter.19}%
+\contentsline {chapter}{\numberline {20}Derived Classes}{53}{chapter.20}%
+\contentsline {chapter}{\numberline {21}Class Hierarchies}{55}{chapter.21}%
+\contentsline {chapter}{\numberline {22}Run-Time Type Information}{57}{chapter.22}%
+\contentsline {chapter}{\numberline {23}Templates}{59}{chapter.23}%
+\contentsline {chapter}{\numberline {24}Generic Programming}{61}{chapter.24}%
+\contentsline {chapter}{\numberline {25}Specialization}{63}{chapter.25}%
+\contentsline {chapter}{\numberline {26}Instantiation}{65}{chapter.26}%
+\contentsline {chapter}{\numberline {27}Templates and Hierarchies}{67}{chapter.27}%
+\contentsline {chapter}{\numberline {28}Metaprogramming}{69}{chapter.28}%
+\contentsline {chapter}{\numberline {29}A Matrix Design}{71}{chapter.29}%
+\contentsline {part}{IV\hspace {1em}The Standard Library}{73}{part.4}%
+\contentsline {chapter}{\numberline {30}Standard Library Summary}{75}{chapter.30}%
+\contentsline {chapter}{\numberline {31}STL Containers}{77}{chapter.31}%
+\contentsline {chapter}{\numberline {32}STL Algorithms}{79}{chapter.32}%
+\contentsline {chapter}{\numberline {33}STL Iterators}{81}{chapter.33}%
+\contentsline {chapter}{\numberline {34}Memory and Resources}{83}{chapter.34}%
+\contentsline {chapter}{\numberline {35}Utilities}{85}{chapter.35}%
+\contentsline {chapter}{\numberline {36}Strings}{87}{chapter.36}%
+\contentsline {chapter}{\numberline {37}Regular Expressions}{89}{chapter.37}%
+\contentsline {chapter}{\numberline {38}I/O Streams}{91}{chapter.38}%
+\contentsline {chapter}{\numberline {39}Locales}{93}{chapter.39}%
+\contentsline {chapter}{\numberline {40}Numerics}{95}{chapter.40}%
+\contentsline {chapter}{\numberline {41}Concurrency}{97}{chapter.41}%
+\contentsline {chapter}{\numberline {42}Threads and Tasks}{99}{chapter.42}%
+\contentsline {chapter}{\numberline {43}The C Standard Library}{101}{chapter.43}%
+\contentsline {chapter}{\numberline {44}Compatibility}{103}{chapter.44}%

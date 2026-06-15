@@ -1,0 +1,250 @@
+\documentclass[12pt,letterpaper]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1.25in,headheight=15pt]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{csquotes}
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+% Spacing
+\onehalfspacing
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0pt}
+
+% Code listing style
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+% Chapter and section formatting
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\centering}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+  {\normalfont\Large\bfseries\centering}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}
+  {\thesubsection}{1em}{}
+
+% Spacing around titles
+\titlespacing*{\chapter}{0pt}{50pt}{40pt}
+\titlespacing*{\section}{0pt}{30pt}{20pt}
+\titlespacing*{\subsection}{0pt}{20pt}{10pt}
+
+% Header and footer setup
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\textit{Competitive Programmer's Handbook}}
+\fancyhead[LO]{\textit{Andre Ruiz Loera}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{note}{Note}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    pdftitle={Competitive Programmer's Handbook - Commentary},
+    pdfauthor={Andre Ruiz Loera},
+}
+
+\begin{document}
+
+% Title page
+\begin{titlepage}
+\begin{center}
+
+\vspace*{4cm}
+
+\rule{\textwidth}{1.5pt}\\[0.5cm]
+
+{\Huge\bfseries Competitive Programmer's Handbook}\\[0.5cm]
+
+{\Large Commentary on Antti Laaksonen's Guide}
+
+\rule{\textwidth}{1.5pt}
+
+\vfill
+
+{\LARGE Andre Ruiz Loera}
+
+\vspace{3cm}
+
+\end{center}
+\end{titlepage}
+
+% Preface (before TOC)
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+% Add your preface content here
+
+\clearpage
+
+% Table of Contents
+\tableofcontents
+\clearpage
+
+\chapter{Introduction}
+
+One thing this chapter makes clear right away is that competitive programming is not just about coming up with the right algorithm. You also have to write it correctly. It sounds obvious, but it is easy to forget when you are in the middle of a contest trying to think through the logic. The judges do not care about your idea. They care about whether the program actually works and does it fast enough.
+Speed matters in another way too. You have to write code quickly. There is no time to obsess over style or elegance. You solve, you implement, and you move on.
+Most people in competitive programming use C++. There is a simple reason for that. C++ is fast and the standard library gives you countless useful tools that you do not have to reinvent. You can get a priority queue, a sorting function, or a hash map whenever you need it. Even so, the book reminds us that the problems are usually written so that no language has a special advantage. A good algorithm will beat a bad one regardless of the language.
+One thing I appreciate about the C++ standard library is that you really do get almost everything you need right there. You do not have to pull in extra libraries or set up anything complicated. It is all already waiting for you.
+There are also little tricks that help with input and output speed. For example, writing \texttt{"{\textbackslash}n"} is usually faster than \texttt{endl} because \texttt{endl} flushes the buffer every time. Most of the time you do not need that flush, so \texttt{endl} just slows you down. \texttt{scanf} and \texttt{printf} can also be faster than \texttt{cin} and \texttt{cout}, although you can adjust settings to speed up the C++ streams too. \texttt{getline} is useful when you need to read a full line that contains spaces, since the normal \texttt{cin} stops at spaces.
+Sometimes you do not know how much input you will get. In those cases, using \texttt{cin >> x} repeatedly lets you read everything until the input ends. It is a simple trick, but it comes up often.
+The book also mentions \texttt{freopen}, which is handy when you want to test your program on local files. For example:
+\begin{lstlisting}[language=C++]
+freopen("input.txt", "r", stdin);
+freopen("output.txt", "w", stdout);
+\end{lstlisting}
+After that, all your input comes from \texttt{input.txt} and everything you print goes to \texttt{output.txt}. It makes testing much easier.
+Finally, the chapter touches on something every competitor eventually learns the hard way. The \texttt{int} type does not always have enough range. When values start getting large, you have to switch to \texttt{long long} or your answer will overflow and you will lose points for a mistake you did not notice.
+Overall, this first chapter sets the tone. Competitive programming is part problem solving, part careful coding, and part learning small habits that save time and avoid mistakes. It is not only about being clever. It is about being precise and practical under pressure.
+
+\chapter{Time Complexity}
+
+% Your content here
+
+\chapter{Sorting}
+
+% Your content here
+
+\chapter{Data Structures}
+
+% Your content here
+
+\chapter{Dynamic Programming}
+
+% Your content here
+
+\chapter{Graph Algorithms}
+
+% Your content here
+
+\chapter{Algorithm Design Topics}
+
+% Your content here
+
+\chapter{Range Queries}
+
+% Your content here
+
+\chapter{Tree Algorithms}
+
+% Your content here
+
+\chapter{Mathematics}
+
+% Your content here
+
+\chapter{Advanced Graph Algorithms}
+
+% Your content here
+
+\chapter{Geometry}
+
+% Your content here
+
+\chapter{Directed Graphs}
+
+% Your content here
+
+\chapter{Strong Connectivity}
+
+% Your content here
+
+\chapter{Tree Queries}
+
+% Your content here
+
+\chapter{Paths and Circuits}
+
+% Your content here
+
+\chapter{Flows and Cuts}
+
+% Your content here
+
+\chapter{String Algorithms}
+
+% Your content here
+
+\chapter{Square Root Algorithms}
+
+% Your content here
+
+\chapter{Segment Trees Revisited}
+
+% Your content here
+
+\chapter{Combinatorics}
+
+% Your content here
+
+\chapter{Matrix Operations}
+
+% Your content here
+
+\chapter{Probability}
+
+% Your content here
+
+\chapter{Game Theory}
+
+% Your content here
+
+\chapter{Number Theory}
+
+% Your content here
+
+\chapter{String Matching}
+
+% Your content here
+
+\chapter{Advanced Topics}
+
+% Your content here
+
+\end{document}

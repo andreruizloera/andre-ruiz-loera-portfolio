@@ -1,0 +1,343 @@
+\documentclass[12pt,letterpaper]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1.25in,headheight=15pt]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{csquotes}
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+% Spacing
+\onehalfspacing
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0pt}
+
+% Code listing style
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+% Chapter and section formatting
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\centering}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+  {\normalfont\Large\bfseries\centering}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}
+  {\thesubsection}{1em}{}
+
+% Spacing around titles
+\titlespacing*{\chapter}{0pt}{50pt}{40pt}
+\titlespacing*{\section}{0pt}{30pt}{20pt}
+\titlespacing*{\subsection}{0pt}{20pt}{10pt}
+
+% Header and footer setup
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\textit{The C++ Programming Language}}
+\fancyhead[LO]{\textit{Andre Ruiz Loera}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{note}{Note}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    pdftitle={The C++ Programming Language - Commentary},
+    pdfauthor={Andre Ruiz Loera},
+}
+
+\begin{document}
+
+% Title page
+\begin{titlepage}
+\begin{center}
+
+\vspace*{4cm}
+
+\rule{\textwidth}{1.5pt}\\[0.5cm]
+
+{\Huge\bfseries The C++ Programming Language}\\[0.5cm]
+
+{\Large\bfseries Fourth Edition}\\[0.3cm]
+
+{\Large Commentary on Bjarne Stroustrup's Text}\\[0.5cm]
+
+\rule{\textwidth}{1.5pt}
+
+\vfill
+
+{\LARGE Andre Ruiz Loera}
+
+\vspace{3cm}
+
+\end{center}
+\end{titlepage}
+
+% Preface (before TOC)
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+My interest in C++ did not arrive all at once. It grew slowly as I spent more time thinking about how ideas are built, how structure emerges from small pieces, and how rules can shape creativity. Eventually I realized that C++ had started to pull me in. It felt like a language that rewards patience and curiosity more than quick answers, and I found something oddly appealing in that.
+
+People often describe C++ as complicated or intimidating. I think of it as a place where precision and imagination meet. It asks you to think carefully about what you want to say. It also asks you to accept that the computer will interpret every word exactly as it appears, even when you wish it would read your mind. That combination is strangely philosophical. It makes you reflect on how clearly you can express your own thoughts.
+
+Along the way I noticed that I enjoyed C++ more than other programming languages I had tried. Some languages want to hide the details in the name of convenience. Others try to do everything for you, which makes life easier until you actually want to understand what is happening. C++ is honest. It tells you exactly how things work and then trusts you to make good choices. There is a kind of respect in that. When you write C++ you feel like you are speaking directly to the machine rather than talking through a long chain of polite intermediaries. That directness is challenging, but it is also strangely refreshing. It feels like learning how something actually works instead of memorizing a simplified version of the truth.
+
+At some point I decided that if I was going to learn this language I should learn it from the person who understands it more completely than anyone else. So I turned to Bjarne Stroustrup and his writing, which contains both technical insight and a way of thinking that is calm and intentional. Reading his work feels like being guided through unfamiliar terrain by someone who has walked it many times and still finds meaning in every detail.
+
+This commentary is my attempt to engage with the text rather than simply move through it. I want to pause at ideas that deserve attention, restate them in my own words, and add whatever reflections come naturally. Some thoughts will be serious, some will be light, and some will simply be honest moments of confusion that eventually turn into understanding. In other words, exactly what learning C++ feels like.
+
+If this commentary succeeds at anything, I hope it captures the human side of studying something difficult. C++ can be frustrating. It can also be surprisingly beautiful. It has moments that feel like puzzles and others that feel like philosophy. Through this process I have come to appreciate that the language is not only a tool but also a mirror that shows the way I think, the way I learn, and the way I respond to challenges that do not give up easily.
+
+\clearpage
+
+% Table of Contents
+\tableofcontents
+\clearpage
+
+\part{Introductory Material}
+
+\chapter{Notes to the Reader}
+
+This book presents itself as a reference. Its purpose is not to impress the reader with clever algorithms or dramatic examples. Instead it aims to give a complete and practical introduction to the C++ language, something you can return to whenever you need clarity or guidance. Everything essential is here and the depth grows as you grow with it.
+
+C began life as a language that allowed programmers to work very close to the machine. It provides direct control over memory, performance, and hardware level behavior. C++ was built on that same foundation, but Stroustrup introduced tools that make large scale programming more manageable. These include features like stronger type checking, constructors, destructors, and safer ways to organize code. The idea was simple: keep the power of C while making code easier to design and maintain.
+
+Some famous programmers have strong opinions about C++. Linus Torvalds is one of them, and he has often expressed frustration with C++. His argument is that it can encourage unnecessary complexity, which is one reason the Linux kernel is written in C. Whether one agrees with him or not, his criticism highlights something important about C++: you have to use it wisely. It gives you many tools, but you must choose the right ones.
+
+One of the guiding principles behind C++ is the idea that what you do not use you do not pay for. This is the zero overhead principle. It means that features should not slow down your program unless you explicitly choose to use them. Many languages add layers of runtime systems or automatic behavior that you cannot turn off. C++ treats those additions with caution so that performance and control remain in the hands of the programmer.
+
+C++ supports many styles of programming. It allows procedural programming for simple tasks. It supports data abstraction for cleaner organization of ideas. It enables object oriented programming when you want to model real structures and behaviors. And it gives you generic programming for writing flexible and reusable components. This variety is not a flaw. It is a recognition that no single style is enough for every real problem.
+
+It is sometimes said that C is a subset of C++. This is true in the sense that most valid C code will compile in a C++ compiler. But it is important to remember that C++ changes and strengthens the type system and adds many new rules. C itself is often described as strongly typed but weakly checked. C++ tries to keep the power of C while adding guard rails that prevent certain errors and encourage safer design.
+
+Another important trait of C++ is that it avoids unnecessary runtime machinery. It does not depend on garbage collectors or heavy interpreters. It gives you tools but it does not force them on you. This light runtime makes C++ suitable for systems that require tight control over resources such as embedded devices or high performance applications.
+
+The standard library is a central part of modern C++. It contains containers, algorithms, and utilities that express the natural style of the language. Using it well means you focus on solving real problems rather than rebuilding basic tools from scratch. Learning C++ is not only about the language syntax but also about understanding the library that comes with it.
+
+One of the most valuable lessons when studying C++ is that you must write it in its own style. It does not behave like Python or Java or any other language. If you try to write C++ in the style of something else you lose what makes it powerful and clear. C++ has patterns, habits, and ideas that reveal themselves over time. Learning them is part of learning the language itself.
+
+From the start, C++ was designed to combine efficient low level programming with the clarity of high level modeling. That vision continues throughout the book. These notes are simply a way to prepare the reader for that perspective and to encourage patience, curiosity, and an open mind while working through the material.
+
+\chapter{A Tour of C++: The Basics}
+
+% Your content here
+
+\chapter{A Tour of C++: Abstraction Mechanisms}
+
+% Your content here
+
+\chapter{A Tour of C++: Containers and Algorithms}
+
+% Your content here
+
+\chapter{A Tour of C++: Concurrency and Utilities}
+
+% Your content here
+
+\part{Basic Facilities}
+
+\chapter{Types and Declarations}
+
+% Your content here
+
+\chapter{Pointers, Arrays, and References}
+
+% Your content here
+
+\chapter{Structures, Unions, and Enumerations}
+
+% Your content here
+
+\chapter{Statements}
+
+% Your content here
+
+\chapter{Expressions}
+
+% Your content here
+
+\chapter{Select Operations}
+
+% Your content here
+
+\chapter{Functions}
+
+% Your content here
+
+\chapter{Exception Handling}
+
+% Your content here
+
+\chapter{Namespaces}
+
+% Your content here
+
+\chapter{Source Files and Programs}
+
+% Your content here
+
+\part{Abstraction Mechanisms}
+
+\chapter{Classes}
+
+% Your content here
+
+\chapter{Construction, Cleanup, Copy, and Move}
+
+% Your content here
+
+\chapter{Overloading}
+
+% Your content here
+
+\chapter{Special Operators}
+
+% Your content here
+
+\chapter{Derived Classes}
+
+% Your content here
+
+\chapter{Class Hierarchies}
+
+% Your content here
+
+\chapter{Run-Time Type Information}
+
+% Your content here
+
+\chapter{Templates}
+
+% Your content here
+
+\chapter{Generic Programming}
+
+% Your content here
+
+\chapter{Specialization}
+
+% Your content here
+
+\chapter{Instantiation}
+
+% Your content here
+
+\chapter{Templates and Hierarchies}
+
+% Your content here
+
+\chapter{Metaprogramming}
+
+% Your content here
+
+\chapter{A Matrix Design}
+
+% Your content here
+
+\part{The Standard Library}
+
+\chapter{Standard Library Summary}
+
+% Your content here
+
+\chapter{STL Containers}
+
+% Your content here
+
+\chapter{STL Algorithms}
+
+% Your content here
+
+\chapter{STL Iterators}
+
+% Your content here
+
+\chapter{Memory and Resources}
+
+% Your content here
+
+\chapter{Utilities}
+
+% Your content here
+
+\chapter{Strings}
+
+% Your content here
+
+\chapter{Regular Expressions}
+
+% Your content here
+
+\chapter{I/O Streams}
+
+% Your content here
+
+\chapter{Locales}
+
+% Your content here
+
+\chapter{Numerics}
+
+% Your content here
+
+\chapter{Concurrency}
+
+% Your content here
+
+\chapter{Threads and Tasks}
+
+% Your content here
+
+\chapter{The C Standard Library}
+
+% Your content here
+
+\chapter{Compatibility}
+
+% Your content here
+
+\end{document}

@@ -1,0 +1,3976 @@
+\documentclass[11pt,letterpaper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{thmtools}
+\usepackage{mdframed}
+\usepackage{xcolor}
+\usepackage{listings}
+
+% Page geometry
+\geometry{
+    margin=1in,
+    headheight=14pt
+}
+
+% Colors
+\definecolor{theoremcolor}{RGB}{0,51,102}
+\definecolor{defcolor}{RGB}{0,85,170}
+\definecolor{examplecolor}{RGB}{0,120,50}
+
+% Theorem environments
+\mdfdefinestyle{theoremstyle}{
+    linecolor=theoremcolor,
+    linewidth=2pt,
+    frametitlerule=true,
+    frametitlebackgroundcolor=theoremcolor!10,
+    innertopmargin=\topskip,
+}
+
+\mdfdefinestyle{defstyle}{
+    linecolor=defcolor,
+    linewidth=2pt,
+    frametitlerule=true,
+    frametitlebackgroundcolor=defcolor!10,
+    innertopmargin=\topskip,
+}
+
+\mdtheorem[style=theoremstyle]{theorem}{Theorem}[section]
+\mdtheorem[style=theoremstyle]{lemma}[theorem]{Lemma}
+\mdtheorem[style=theoremstyle]{proposition}[theorem]{Proposition}
+\mdtheorem[style=theoremstyle]{corollary}[theorem]{Corollary}
+\mdtheorem[style=defstyle]{definition}[theorem]{Definition}
+\mdtheorem[style=defstyle]{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{note}{Note}[section]
+
+% Custom commands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\Cov}{\text{Cov}}
+\newcommand{\prob}{\mathbb{P}}
+
+% Header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Math 463 - Mathematical Statistics}
+\rhead{Andre Ruiz Loera}
+\cfoot{\thepage}
+
+% For empty page style (no page numbers on Part title pages)
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+
+\begin{document}
+
+% Custom title page
+\thispagestyle{empty}
+\vspace*{4cm}
+
+\begin{center}
+\noindent\rule{\textwidth}{3pt}
+
+\vspace{2cm}
+
+{\fontsize{40}{48}\selectfont \textsc{Mathematical Statistics}}
+
+\vspace{2cm}
+
+\noindent\rule{\textwidth}{3pt}
+
+\vspace{3cm}
+
+{\large A collection of notes on major definitions and results, and commentary based on Math 463 at University of Illinois Urbana-Champaign}
+
+\vspace{3cm}
+
+{\Large Lecture Notes By}
+
+\vspace{0.8cm}
+
+{\huge Andre Ruiz Loera}
+
+\end{center}
+
+\newpage
+
+%===========================================
+% PREFACE
+%===========================================
+\thispagestyle{empty}
+\vspace*{2cm}
+
+\begin{center}
+{\Large \textbf{Preface}}
+\end{center}
+
+\vspace{1.5cm}
+
+Math 463 is the upper-level introduction to statistics at the University of Illinois Urbana--Champaign. It serves as the foundation for Math 464, a more advanced and rigorous continuation of the subject that expands upon the concepts introduced in this course. Together, these courses form the core theoretical sequence in mathematical statistics at UIUC.
+
+The official prerequisite for this course is Calculus III. However, somebody with Calculus I experience and access to the internet can succeed in this class.
+
+This commentary includes exercises. If one is reading these notes as a student, then it is of utmost importance to do these exercises without fully looking at the solution yet. Theoretically, someone able to do all of the exercises in this collection of notes should be able to do \textit{very} well in this course.
+
+If there are any typos or incorrect statements, please reach out to me at andre.x.ruizloera@gmail.com.
+
+\newpage
+
+%===========================================
+% TABLE OF CONTENTS
+%===========================================
+\thispagestyle{empty}
+\vspace*{2cm}
+
+\begin{center}
+{\fontsize{32}{40}\selectfont \textbf{Contents}}
+\end{center}
+
+\vspace{2cm}
+
+\noindent\rule{\textwidth}{1pt}
+
+\vspace{0.8cm}
+
+{\large \textbf{Part 1}} \dotfill \textbf{3}
+
+\vspace{0.3cm}
+\hspace{1.5cm} Chapter 1: Basic Probability and Counting \dotfill 4 \\
+\vspace{0.2cm}
+\hspace{1.5cm} Chapter 2: Conditional Probability and Counting \dotfill 5 \\
+\vspace{0.2cm}
+\hspace{1.5cm} Chapter 3: Expectation, Variance, and Discrete Distributions \dotfill 6 \\
+
+\vspace{0.8cm}
+\noindent\rule{\textwidth}{0.5pt}
+\vspace{0.8cm}
+
+{\large \textbf{Part 2}} \dotfill \textbf{7}
+
+\vspace{0.3cm}
+\hspace{1.5cm} Chapter 4: MGFs, Continuous PDFs, and Special Distributions \dotfill 8 \\
+\vspace{0.2cm}
+\hspace{1.5cm} Chapter 5: Poisson Processes, Continuous Distributions, and Normal Models \dotfill 9 \\
+\vspace{0.2cm}
+\hspace{1.5cm} Chapter 6: Covariance, Multivariate Normals, and Chi-Square Methods \dotfill 10 \\
+
+\vspace{0.8cm}
+\noindent\rule{\textwidth}{0.5pt}
+\vspace{0.8cm}
+
+{\large \textbf{Part 3}} \dotfill \textbf{11}
+
+\vspace{0.3cm}
+\hspace{1.5cm} Chapter 7: Method of Moments Estimation and Estimator Performance \dotfill 12 \\
+\vspace{0.2cm}
+\hspace{1.5cm} Chapter 8: Maximum Likelihood Estimation and Likelihood-Based Inference \dotfill 13 \\
+\vspace{0.2cm}
+\hspace{1.5cm} Chapter 9: Confidence Intervals, Pivotal Quantities, and Sampling Distributions \dotfill 14 \\
+
+\vspace{0.8cm}
+\noindent\rule{\textwidth}{0.5pt}
+\vspace{0.8cm}
+
+{\large \textbf{Part 4}} \dotfill \textbf{15}
+
+\vspace{0.3cm}
+\hspace{1.5cm} Chapter 10 \dotfill 16 \\
+\vspace{0.2cm}
+\hspace{1.5cm} Chapter 11 \dotfill 17 \\
+\vspace{0.2cm}
+\hspace{1.5cm} Chapter 12 \dotfill 18 \\
+
+\vspace{0.8cm}
+\noindent\rule{\textwidth}{0.5pt}
+\vspace{0.8cm}
+
+{\large \textbf{Formula Sheets}} \dotfill \textbf{19}
+
+\vspace{0.8cm}
+\noindent\rule{\textwidth}{1pt}
+
+\newpage
+
+%===========================================
+% PART 1
+%===========================================
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+{\fontsize{80}{96}\selectfont \textbf{Part 1}}
+
+\vspace{1cm}
+
+{\large Foundations of Probability: Sample Spaces, Counting, Conditional Probability, Bayes' Theorem, Discrete Random Variables (PMFs \& CDFs), Expectation and Variance, and Standard Discrete Distributions (Binomial, Geometric, Negative Binomial) with Simulation}
+\end{center}
+\vspace*{\fill}
+
+\newpage
+
+% Part 1 notes will go here (to be added later)
+
+\newpage
+
+%===========================================
+% PART 2
+%===========================================
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+{\fontsize{80}{96}\selectfont \textbf{Part 2}}
+
+\vspace{1cm}
+
+{\large Advanced Probability Distributions, Moment-Generating Techniques, Poisson Processes, Continuous \& Discrete Models, Linear Combinations of Normals, Covariance Structures, Custom PDFs, Chi-Square Transformations, and Simulation-Based Evaluation with R}
+\end{center}
+\vspace*{\fill}
+
+\newpage
+
+% Part 2 notes will go here (to be added later)
+
+\newpage
+
+%===========================================
+% PART 3 - YOUR CURRENT WORK
+%===========================================
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+{\fontsize{80}{96}\selectfont \textbf{Part 3}}
+
+\vspace{1cm}
+
+{\large Method of Moments and Maximum Likelihood Estimation: Bias, Variance, and MSE of Estimators; Likelihood Construction, Visualization, and Computation in R; Pivotal Quantities via MGFs; and Confidence Interval Theory for Means, Variances, Proportions, and Transformations}
+\end{center}
+\vspace*{\fill}
+
+\newpage
+
+% Start writing your Part 3 notes here
+
+\textbf{Chapter 7: Method of Moments Estimation and Estimator Performance}
+
+\vspace{0.5cm}
+
+We first learn the method of moments. This is a way to connect our sample data to the theoretical properties of a probability distribution. The idea is to match sample moments (such as the sample mean or sample variance) with the matching population moments. By doing this we can estimate unknown parameters in a simple way.
+
+A probability distribution is described by certain numbers called moments. In this course we only work with the mean and the variance. We also study some ideas about estimators such as bias, the maximum likelihood estimator (MLE), and the mean squared error (MSE). These last three are not moments of a distribution. They are ideas that help us understand how good our estimators are.
+
+\textbf{Mean.}
+The mean represents the average value we expect to see. It is defined as
+\[
+\bar{X} = \frac{1}{n}\sum_{i=1}^{n} X_i,
+\]
+which means we add all the observations and then divide by the number of observations.
+
+\textbf{Variance.}
+Variance is a single number that describes how spread out the values of a random variable are around their mean. It tells us how far the values usually fall from the average. It is defined as
+\[
+\mathrm{Var}(X) = \mathbb{E}[(X - \mu)^2].
+\]
+Whether a variance is large depends on the situation. For example, if you shoot arrows at a target many times, the variance tells you how far the arrows tend to land from the center.
+
+\textbf{Maximum Likelihood Estimator (MLE).}
+The MLE chooses the value of a parameter that makes the observed data most likely under the model. The parameter could be a mean, a variance, a probability, or some other value the distribution depends on. If $L(\theta)$ is the likelihood function, we often take the natural log of it because it is easier to work with. This gives the log likelihood
+\[
+\ell(\theta) = \log L(\theta).
+\]
+The MLE is then
+\[
+\hat{\theta}_{\mathrm{MLE}} = \arg\max_{\theta} \, \ell(\theta),
+\]
+which means it is the value of $\theta$ that makes the log likelihood as large as possible.
+
+\textbf{Mean Squared Error (MSE).}
+The mean squared error measures how far an estimator is from the true parameter value on average. It looks a little like variance, but instead of measuring spread around a mean, it measures how close an estimator is to the true parameter:
+\[
+\mathrm{MSE}(\hat{\theta}) = \mathbb{E}\big[(\hat{\theta} - \theta)^2\big].
+\]
+The MSE takes into account both how much the estimator varies and how biased it is. This is shown by the formula
+\[
+\mathrm{MSE}(\hat{\theta}) = \mathrm{Var}(\hat{\theta}) + \mathrm{Bias}(\hat{\theta})^2.
+\]
+
+Now that we have introduced these fundamental concepts, we can explore them in greater depth. The following sections provide formal definitions, useful computational rules, and a systematic procedure for applying the method of moments.
+
+\newpage
+
+\textbf{Estimators and Bias.}
+An estimator $\hat{\theta}$ is unbiased if
+\[
+\mathbb{E}[\hat{\theta}] = \theta.
+\]
+If this equality does not hold, the estimator is biased. We define the bias as
+\[
+\text{Bias}(\hat{\theta}) = \mathbb{E}[\hat{\theta}] - \theta.
+\]
+
+\textbf{MSE, Variance, and Bias.}
+As we mentioned before, the mean squared error can be written as
+\[
+\text{MSE}(\hat{\theta}) = \text{Var}(\hat{\theta}) + \text{Bias}(\hat{\theta})^2.
+\]
+This formula shows that the MSE combines the variance (how much the estimator fluctuates) and the squared bias (how far off the estimator is on average).
+
+\textbf{Useful Rules for Expectation and Variance.}
+If $X_1, X_2, \ldots, X_n$ are independent and identically distributed (i.i.d.) random variables with mean $\mu$ and variance $\sigma^2$, and if
+\[
+\bar{X} = \frac{1}{n} \sum_{i=1}^{n} X_i,
+\]
+then we have the following facts:
+\begin{itemize}
+    \item $\mathbb{E}[\bar{X}] = \mu$
+    \item $\text{Var}(\bar{X}) = \frac{\sigma^2}{n}$
+    \item $\mathbb{E}[X_i^2] = \text{Var}(X_i) + (\mathbb{E}[X_i])^2 = \sigma^2 + \mu^2$
+\end{itemize}
+
+\textbf{Facts About Common Distributions.}
+Here are some useful facts about distributions we see often:
+\begin{itemize}
+    \item \textbf{Poisson:} If $X \sim \text{Poisson}(\lambda)$, then $\mathbb{E}[X] = \lambda$ and $\text{Var}(X) = \lambda$.
+    \item \textbf{Exponential:} If $X \sim \text{Exp}(\lambda)$, then $\mathbb{E}[X] = \frac{1}{\lambda}$ and $\text{Var}(X) = \frac{1}{\lambda^2}$.
+    \item \textbf{Normal:} If $X \sim N(\mu, \sigma^2)$, then $\mathbb{E}[X] = \mu$ and $\text{Var}(X) = \sigma^2$.
+\end{itemize}
+
+\textbf{Method of Moments: Step-by-Step.}
+The method of moments is a technique to estimate unknown parameters by matching sample moments to population moments. Here is how it works:
+\begin{enumerate}
+    \item \textbf{Compute the population moments.} For example, compute $\mathbb{E}[X]$ and $\mathbb{E}[X^2]$ in terms of the unknown parameters.
+    \item \textbf{Set up the equations.} Replace each population moment with its sample version:
+    \[
+    \mathbb{E}[X] \approx \bar{X}, \quad \mathbb{E}[X^2] \approx \frac{1}{n} \sum_{i=1}^{n} X_i^2.
+    \]
+    \item \textbf{Solve for the parameters.} Use algebra to solve the resulting equations for the unknown parameters.
+\end{enumerate}
+
+\subsection*{\textit{Question 3.1.1}}
+
+Suppose that $X_1, X_2, \dots, X_n$ are i.i.d. Poisson$(\theta)$ with $\mathbb{E}[X] = \theta$ and $n \ge 3$.
+
+(a) Find the Method of Moments (MoM) estimator for $\theta$.
+Hint: This one is very straightforward.
+
+(b) Compare the following three estimators of $\theta$:
+\[
+\tilde{\theta}_{\mathrm{MoM}},
+\qquad
+\hat{\theta}_2 = \frac{2X_1 + X_2}{3},
+\qquad
+\hat{\theta}_3 = \frac{n\bar{X}}{n - 1}.
+\]
+Find the bias, variance, and MSE of each estimator.
+
+(c) Using MSE as the criterion for comparison, which estimator performs the best?
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+(a) Let us start with part a. This one is very simple. The symbol $\theta$ is used to represent an unknown parameter in the Poisson distribution. For a Poisson random variable we know that the population mean is
+\[
+\mathbb{E}[X] = \theta.
+\]
+
+The method of moments tells us to match this population mean with the sample mean. The sample mean is
+\[
+\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i.
+\]
+
+So we set the sample mean equal to the population mean,
+\[
+\bar{X} = \theta,
+\]
+and this gives the method of moments estimator
+\[
+\boxed{\tilde{\theta}_{\text{MoM}} = \bar{X}.}
+\]
+
+\vspace{1cm}
+
+(b) Let us focus on part B now. We now look at the three estimators
+\[
+\tilde{\theta}_{\text{MoM}} = \bar{X}, \qquad
+\hat{\theta}_2 = \frac{2X_1 + X_2}{3}, \qquad
+\hat{\theta}_3 = \frac{n\bar{X}}{n - 1}.
+\]
+We want to find the bias, variance, and MSE for each one.
+
+Remember that for a Poisson$(\theta)$ random variable we have
+\[
+\mathbb{E}[X_i] = \theta, \qquad \mathrm{Var}(X_i) = \theta.
+\]
+
+\medskip
+\noindent
+\textbf{Estimator $\tilde{\theta}_{\text{MoM}} = \bar{X}$.}
+
+Bias is defined as
+\[
+\mathrm{Bias}(\hat{\theta}) = \mathbb{E}[\hat{\theta}] - \theta.
+\]
+Since
+\[
+\mathbb{E}[\bar{X}] = \theta,
+\]
+we get
+\[
+\mathrm{Bias}(\tilde{\theta}_{\text{MoM}}) = \theta - \theta = 0.
+\]
+
+For the variance, we use the fact that the sample mean has variance
+\[
+\mathrm{Var}(\bar{X}) = \frac{\theta}{n}.
+\]
+
+Since the bias is zero, the MSE is
+\[
+\mathrm{MSE}(\tilde{\theta}_{\text{MoM}}) = \frac{\theta}{n}.
+\]
+
+\[
+\boxed{\text{Bias} = 0, \quad \text{Var} = \frac{\theta}{n}, \quad \text{MSE} = \frac{\theta}{n}}
+\]
+
+\medskip
+\noindent
+\textbf{Estimator $\hat{\theta}_2 = \frac{2X_1 + X_2}{3}$.}
+
+To find the bias, we use $\mathbb{E}[X_i] = \theta$:
+\[
+\mathbb{E}[\hat{\theta}_2]
+= \frac{2\theta + \theta}{3}
+= \theta.
+\]
+So the bias is zero:
+\[
+\mathrm{Bias}(\hat{\theta}_2) = \theta - \theta = 0.
+\]
+
+Now we look at the variance. We write the estimator as
+\[
+\hat{\theta}_2 = \frac{2}{3}X_1 + \frac{1}{3}X_2.
+\]
+Using the rule $\mathrm{Var}(aX) = a^2\mathrm{Var}(X)$ and independence,
+\[
+\mathrm{Var}(\hat{\theta}_2)
+= \frac{4}{9}\theta + \frac{1}{9}\theta
+= \frac{5\theta}{9}.
+\]
+
+Since the bias is zero, the MSE is
+\[
+\mathrm{MSE}(\hat{\theta}_2) = \frac{5\theta}{9}.
+\]
+
+\[
+\boxed{\text{Bias} = 0, \quad \text{Var} = \frac{5\theta}{9}, \quad \text{MSE} = \frac{5\theta}{9}}
+\]
+
+\medskip
+\noindent
+\textbf{Estimator $\hat{\theta}_3 = \frac{n\bar{X}}{n - 1}$.}
+
+For the bias, we use $\mathbb{E}[\bar{X}] = \theta$:
+\[
+\mathbb{E}[\hat{\theta}_3]
+= \frac{n}{n - 1}\theta.
+\]
+So the bias is
+\[
+\mathrm{Bias}(\hat{\theta}_3)
+= \frac{n}{n - 1}\theta - \theta
+= \frac{\theta}{n - 1}.
+\]
+
+For the variance, we use
+\[
+\hat{\theta}_3 = \frac{n}{n - 1}\bar{X},
+\qquad
+\mathrm{Var}(\bar{X}) = \frac{\theta}{n},
+\]
+which gives
+\[
+\mathrm{Var}(\hat{\theta}_3)
+= \left(\frac{n}{n - 1}\right)^2 \frac{\theta}{n}
+= \frac{n\theta}{(n - 1)^2}.
+\]
+
+Now we find the MSE:
+\[
+\mathrm{MSE}(\hat{\theta}_3)
+= \frac{n\theta}{(n - 1)^2}
++ \left(\frac{\theta}{n - 1}\right)^2
+= \frac{\theta(n + \theta)}{(n - 1)^2}.
+\]
+
+\[
+\boxed{\text{Bias} = \frac{\theta}{n-1}, \quad \text{Var} = \frac{n\theta}{(n-1)^2}, \quad \text{MSE} = \frac{\theta(n+\theta)}{(n-1)^2}}
+\]
+
+\vspace{1cm}
+
+(c) We have the following mean squared errors:
+\[
+\text{MSE}(\tilde{\theta}_{\mathrm{MoM}})=\frac{\theta}{n},
+\qquad
+\text{MSE}(\hat{\theta}_2)=\frac{5\theta}{9},
+\qquad
+\text{MSE}(\hat{\theta}_3)=\frac{\theta(n+\theta)}{(n-1)^2}.
+\]
+We compare these expressions for all $n \ge 3$ and $\theta>0$.
+
+\textbf{1. Comparing $\tilde{\theta}_{\mathrm{MoM}}$ and $\hat{\theta}_2$:}
+We check whether
+\[
+\frac{\theta}{n} < \frac{5\theta}{9}.
+\]
+Since $\theta>0$, dividing both sides by $\theta$ yields
+\[
+\frac{1}{n} < \frac{5}{9}
+\quad\Longleftrightarrow\quad
+n > \frac{9}{5}.
+\]
+Because $n \ge 3$, this inequality always holds. Therefore,
+\[
+\text{MSE}(\tilde{\theta}_{\mathrm{MoM}}) < \text{MSE}(\hat{\theta}_2).
+\]
+
+\textbf{2. Comparing $\tilde{\theta}_{\mathrm{MoM}}$ and $\hat{\theta}_3$:}
+Next we examine
+\[
+\frac{\theta}{n} < \frac{\theta(n+\theta)}{(n-1)^2}.
+\]
+Dividing by $\theta > 0$,
+\[
+\frac{1}{n} < \frac{n+\theta}{(n-1)^2}
+\quad\Longleftrightarrow\quad
+(n-1)^2 < n(n+\theta).
+\]
+Expanding both sides,
+\[
+n^2 - 2n + 1 < n^2 + n\theta,
+\]
+which simplifies to
+\[
+-2n + 1 < n\theta.
+\]
+For all $n \ge 3$ and $\theta>0$, the right-hand side is nonnegative and the left-hand side is strictly negative. Thus the inequality always holds, implying
+\[
+\text{MSE}(\tilde{\theta}_{\mathrm{MoM}}) < \text{MSE}(\hat{\theta}_3).
+\]
+
+\textbf{Conclusion:}
+For all $n \ge 3$ and $\theta>0$,
+\[
+\text{MSE}(\tilde{\theta}_{\mathrm{MoM}}) < \text{MSE}(\hat{\theta}_2),
+\qquad
+\text{and}
+\qquad
+\text{MSE}(\tilde{\theta}_{\mathrm{MoM}}) < \text{MSE}(\hat{\theta}_3).
+\]
+Therefore, using MSE as the comparison criterion, the best estimator is
+\[
+\boxed{\tilde{\theta}_{\mathrm{MoM}} = \bar{X}}.
+\]
+
+\newpage
+
+\subsection*{\textit{Question 3.1.2}}
+
+Given the following i.i.d.\ samples $X_1, \dots, X_n$ from a discrete distribution with probability mass function
+\[
+\begin{array}{c|ccc}
+x      & 1 & 2 & 3 \\ \hline
+f(x)   & \theta & 2\theta & 1 - 3\theta
+\end{array}
+\]
+
+\begin{enumerate}
+    \item[(a)] Find the MOM estimator of $\theta$.
+    \item[(b)] Find the bias of the MOM estimator.
+    \item[(c)] Find the variance and MSE of the MOM estimator.
+\end{enumerate}
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+(a) The method of moments estimator is obtained by equating the first theoretical moment
+$\mathbb{E}[X]$ to the first sample moment $\bar X$.
+
+The distribution of $X$ is
+\[
+P(X = 1) = \theta,\qquad P(X = 2) = 2\theta,\qquad P(X = 3) = 1 - 3\theta.
+\]
+Thus
+\[
+\mathbb{E}[X]
+= 1 \cdot \theta + 2 \cdot (2\theta) + 3 \cdot (1 - 3\theta)
+= \theta + 4\theta + 3 - 9\theta
+= 3 - 4\theta.
+\]
+The method of moments sets
+\[
+\bar X = \mathbb{E}[X] = 3 - 4\theta,
+\]
+so solving for $\theta$ gives
+\[
+\boxed{\hat\theta_{\text{MOM}} = \frac{3 - \bar X}{4}.}
+\]
+
+(b) To find the bias of the method of moments estimator, we start with the estimator
+\[
+\hat{\theta}_{\text{MOM}} = \frac{3 - \bar{X}}{4}.
+\]
+To compute its expectation, we apply linearity of expectation. First write
+\[
+\mathbb{E}[\hat{\theta}_{\text{MOM}}]
+    = \mathbb{E}\!\left[ \frac{3 - \bar{X}}{4} \right]
+    = \frac{1}{4}\,\mathbb{E}[\,3 - \bar{X}\,].
+\]
+Since the expectation of a constant is just the constant itself, we have
+\[
+\mathbb{E}[\,3 - \bar{X}\,] = 3 - \mathbb{E}[\bar{X}].
+\]
+Because $\bar{X}$ is the sample mean of i.i.d.\ observations, its expectation equals the population mean:
+\[
+\mathbb{E}[\bar{X}] = \mathbb{E}[X] = 3 - 4\theta.
+\]
+Substituting this into the previous expression gives
+\[
+\mathbb{E}[\hat{\theta}_{\text{MOM}}]
+= \frac{1}{4}\big( 3 - (3 - 4\theta) \big)
+= \frac{1}{4}(4\theta)
+= \theta.
+\]
+Therefore, the bias of the estimator is
+\[
+\operatorname{Bias}(\hat{\theta}_{\text{MOM}})
+= \mathbb{E}[\hat{\theta}_{\text{MOM}}] - \theta
+= \theta - \theta
+= 0.
+\]
+This shows that the method of moments estimator is unbiased.
+
+\[
+\boxed{\operatorname{Bias}(\hat{\theta}_{\text{MOM}}) = 0}
+\]
+
+(c) To solve this part, I like to list the tools I already have.
+From earlier, I know that the population mean is
+\[
+E[X] = 3 - 4\theta,
+\]
+and my MOM estimator is
+\[
+\hat\theta_{\text{MOM}} = \frac{3 - \bar X}{4}.
+\]
+I also know two important formulas from my ``toolbox'':
+\[
+\mathrm{Var}(X) = E[X^2] - (E[X])^2,
+\qquad
+\mathrm{Var}(\bar X) = \frac{\mathrm{Var}(X)}{n}.
+\]
+
+Before finding the variance of the estimator itself, I first need
+$\mathrm{Var}(X)$. To get $E[X^2]$, I go back to the original pmf and square
+the \emph{x-values}:
+\[
+E[X^2] = 1^2 \cdot \theta + 2^2 \cdot (2\theta) + 3^2 \cdot (1 - 3\theta)
+       = \theta + 8\theta + 9 - 27\theta
+       = 9 - 18\theta.
+\]
+I already know that
+\[
+E[X] = 3 - 4\theta,
+\]
+so
+\[
+(E[X])^2 = (3 - 4\theta)^2 = 9 - 24\theta + 16\theta^2.
+\]
+
+Now I plug these into the variance formula:
+\[
+\mathrm{Var}(X)
+= (9 - 18\theta) - (9 - 24\theta + 16\theta^2)
+= 6\theta - 16\theta^2.
+\]
+
+Next, since $\bar X$ is the sample mean of $n$ i.i.d.\ copies of $X$,
+\[
+\mathrm{Var}(\bar X)
+= \frac{6\theta - 16\theta^2}{n}.
+\]
+
+Now I find the variance of the estimator. I rewrite it as
+\[
+\hat\theta_{\text{MOM}}
+= \frac{3}{4} - \frac{1}{4}\bar X.
+\]
+Here is an important note: the constant $\frac{3}{4}$ does not affect
+variance at all. Variance only changes when something is stretched or
+shrunk, not when everything shifts by the same amount. So the only part
+that matters for variance is the factor $-\frac{1}{4}$ on $\bar X$.
+This gives
+\[
+\mathrm{Var}(\hat\theta_{\text{MOM}})
+= \left(-\frac{1}{4}\right)^2 \mathrm{Var}(\bar X)
+= \frac{1}{16} \cdot \frac{6\theta - 16\theta^2}{n}
+= \frac{6\theta - 16\theta^2}{16n}.
+\]
+
+Since part (b) showed the estimator is unbiased, its MSE is the same as its variance:
+\[
+\mathrm{MSE}(\hat\theta_{\text{MOM}})
+= \mathrm{Var}(\hat\theta_{\text{MOM}})
+= \frac{6\theta - 16\theta^2}{16n}.
+\]
+
+\[
+\boxed{\mathrm{Var}(\hat\theta_{\text{MOM}}) = \frac{6\theta - 16\theta^2}{16n}, \quad \mathrm{MSE}(\hat\theta_{\text{MOM}}) = \frac{6\theta - 16\theta^2}{16n}}
+\]
+
+\subsection*{\textit{Question 3.1.3}}
+
+Given the following i.i.d.\ samples $X_1, \ldots, X_n$ from an $\mathrm{Exp}(\theta)$ distribution with
+probability density function
+\[
+f(x) = \frac{1}{\theta} e^{-x/\theta}, \qquad x \ge 0,
+\]
+answer the following:
+
+\begin{enumerate}
+    \item[(a)] Find the method of moments (MoM) estimator of $\theta$, denoted $\tilde{\theta}$.
+    \item[(b)] Using the second moment, find an alternative MoM estimator of $\theta$, denoted $\tilde{\theta}_2$.
+\end{enumerate}
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+(a) First solution:
+
+For the exponential density
+\[
+f(x\mid\theta)=\frac{1}{\theta}e^{-x/\theta},
+\]
+we can avoid doing the full integral if we notice how the parameter $\theta$ appears.
+The density can be rewritten as
+\[
+f(x\mid\theta)=\frac{1}{\theta}\, g(x/\theta),
+\]
+where $g(u)=e^{-u}$.
+When a density has this form, $\theta$ simply stretches the graph horizontally, and the mean of the distribution becomes $\theta$ times the mean of the base function $g$.
+Since the standard exponential $g(u)=e^{-u}$ has mean $1$, the stretched version has mean
+\[
+E[X]=\theta.
+\]
+This lets us see immediately that the mean is $\theta$ without doing any integration.
+
+\vspace{0.5cm}
+
+Second solution (integral method):
+
+Starting from the definition,
+\[
+E[X] = \int_0^\infty x\, f(x\mid\theta)\, dx
+       = \int_0^\infty x\, \frac{1}{\theta} e^{-x/\theta}\, dx.
+\]
+
+Factor out the constant $1/\theta$:
+\[
+E[X] = \frac{1}{\theta} \int_0^\infty x\, e^{-x/\theta}\, dx.
+\]
+
+Use the substitution $u = x/\theta$, so $x=\theta u$ and $dx=\theta\,du$:
+\[
+E[X] = \frac{1}{\theta} \int_0^\infty (\theta u)\, e^{-u}\, (\theta\,du).
+\]
+
+Simplify the constants:
+\[
+E[X] = \theta \int_0^\infty u\, e^{-u}\, du.
+\]
+
+Evaluate the remaining integral (a known result or by integration by parts):
+\[
+\int_0^\infty u e^{-u} du = 1.
+\]
+
+Thus,
+\[
+E[X] = \theta \cdot 1 = \theta.
+\]
+
+Both approaches give the same answer, but the first method is much quicker once you recognize the scale structure.
+
+\vspace{0.5cm}
+
+Third solution:
+
+We know that $E[X] = \theta$. We know this because we took the integral of this exact function earlier in the notes!
+
+Setting the sample mean equal to the population mean gives
+\[
+\boxed{\tilde{\theta} = \bar{X}.}
+\]
+
+(b) For this part, we want to use the second moment to get another
+Method of Moments estimator for $\theta$.
+
+For an $\mathrm{Exp}(\theta)$ random variable, we know two important facts:
+\[
+E[X] = \theta,
+\qquad
+\mathrm{Var}(X) = \theta^{2}.
+\]
+
+We use the variance formula
+\[
+\mathrm{Var}(X) = E[X^{2}] - (E[X])^{2}.
+\]
+
+Plugging in $\mathrm{Var}(X)=\theta^{2}$ and $E[X]=\theta$, we get
+\[
+\theta^{2} = E[X^{2}] - \theta^{2}.
+\]
+
+Now solve this for $E[X^{2}]$:
+\[
+E[X^{2}] = 2\theta^{2}.
+\]
+
+This means the theoretical second moment is $2\theta^{2}$.
+
+The sample second moment (the version we compute from the data) is
+\[
+M_{2} = \frac{1}{n}\sum_{i=1}^{n} X_{i}^{2}.
+\]
+
+The Method of Moments tells us to set the sample moment equal to the
+theoretical moment:
+\[
+M_{2} = 2\theta^{2}.
+\]
+
+Now solve this equation for $\theta$:
+\[
+\theta^{2} = \frac{M_{2}}{2}
+\qquad\Longrightarrow\qquad
+\theta = \sqrt{\frac{M_{2}}{2}}.
+\]
+
+Since $M_{2} = \frac{1}{n}\sum_{i=1}^n X_i^2$, our estimator becomes
+\[
+\boxed{
+\tilde{\theta}_{2}
+=
+\sqrt{\frac{1}{2n}\sum_{i=1}^{n} X_{i}^{2}}
+}.
+\]
+
+\subsection*{\textit{Question 3.1.4}}
+
+Given the following i.i.d.\ samples
+\[
+X_1, \ldots, X_n \stackrel{iid}{\sim} \text{Normal}(5, \theta^2),
+\]
+
+(a) Find the MoM estimator of $\theta^2$.
+
+(b) Find the estimate for $\theta^2$ if we know $n = 100$ and
+\[
+\sum_{i=1}^{100} X_i^2 = 10000.
+\]
+
+(c) Find the estimate for $\theta^2$ if we know $n = 100$ and
+\[
+\sum_{i=1}^{100} X_i^2 = 1000.
+\]
+Do you think this value is valid?
+
+\textit{Hint: What do you know about the range the variance can take?
+We are given $\sum_{i=1}^{100} X_i^2 = 1000$, but what is the minimum possible value you could expect $\sum_{i=1}^{100} X_i^2$ to take? (Yes, please answer these questions when you turn it in.)}
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+(a) We have
+\[
+X_1,\dots,X_n \overset{\text{i.i.d.}}{\sim} \mathcal{N}(5,\theta^2).
+\]
+
+For any random variable $X$, we know:
+\[
+E[X^2] = \operatorname{Var}(X) + (E[X])^2.
+\]
+
+Here,
+\[
+\operatorname{Var}(X) = \theta^2, \qquad E[X] = 5.
+\]
+
+So,
+\[
+E[X^2] = \theta^2 + 5^2 = \theta^2 + 25.
+\]
+
+The method of moments sets the sample second moment equal to the population second moment:
+\[
+\frac{1}{n}\sum_{i=1}^n X_i^2 = E[X^2] = \theta^2 + 25.
+\]
+
+Solving for $\theta^2$:
+\[
+\hat{\theta}^2_{\text{MoM}} = \frac{1}{n}\sum_{i=1}^n X_i^2 - 25.
+\]
+
+\[
+\boxed{\hat{\theta}^2_{\text{MoM}} = \dfrac{1}{n}\sum_{i=1}^n X_i^2 - 25}
+\]
+
+(b) From part (a), the method of moments estimator for $\theta^2$ is
+\[
+\hat{\theta}^2_{\text{MoM}} = \frac{1}{n}\sum_{i=1}^n X_i^2 - 25.
+\]
+We are given that $n = 100$ and $\sum_{i=1}^{100} X_i^2 = 10000$. Thus,
+\[
+\frac{1}{n}\sum_{i=1}^n X_i^2
+= \frac{1}{100}\sum_{i=1}^{100} X_i^2
+= \frac{10000}{100}
+= 100.
+\]
+Substituting into the estimator, we obtain
+\[
+\hat{\theta}^2_{\text{MoM}} = 100 - 25 = 75.
+\]
+Hence, the estimate for $\theta^2$ is
+\[
+\boxed{\hat{\theta}^2 = 75}.
+\]
+
+(c) From part (a), the method of moments estimator for $\theta^2$ is
+\[
+\hat{\theta}^2_{\text{MoM}} = \frac{1}{n}\sum_{i=1}^n X_i^2 - 25.
+\]
+
+We are given:
+\[
+n = 100, \qquad \sum_{i=1}^{100} X_i^2 = 1000.
+\]
+
+First compute the sample second moment:
+\[
+\frac{1}{n}\sum_{i=1}^n X_i^2
+= \frac{1000}{100}
+= 10.
+\]
+
+Now plug this into the estimator:
+\[
+\hat{\theta}^2_{\text{MoM}} = 10 - 25 = -15.
+\]
+
+This value is not valid. The quantity $\theta^2$ represents a variance, and variances cannot be negative.
+
+We can also see why this happens. Since the mean of the distribution is 5, we know that
+\[
+E[X^2] = \theta^2 + 25 \ge 25.
+\]
+
+For the method of moments, this means the sample second moment must also be at least 25:
+\[
+\frac{1}{n}\sum_{i=1}^n X_i^2 \ge 25.
+\]
+
+With $n = 100$, this gives the minimum possible value:
+\[
+\sum_{i=1}^{100} X_i^2 \ge 25 \times 100 = 2500.
+\]
+
+But the problem gives $\sum X_i^2 = 1000$, which is far below 2500. This is why the estimator becomes negative, and why the value is not possible under a Normal$(5,\theta^2)$ model.
+
+\[
+\boxed{\hat{\theta}^2 = -15 \quad \text{(not valid, variance must be non-negative)}}
+\]
+
+\subsection*{\textit{Question 3.1.5}}
+
+Let $X_1, X_2, \dots, X_n$ be i.i.d.\ random variables such that
+\[
+X_i \sim N(\mu, \sigma^2).
+\]
+Find the method of moments estimators for both $\mu$ and $\sigma^2$.
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+We are given i.i.d.\ random variables
+\[
+X_1, X_2, \dots, X_n \sim N(\mu, \sigma^2).
+\]
+We want to find the method of moments estimators for $\mu$ and $\sigma^2$.
+
+\medskip
+\noindent
+First moment (estimating $\mu$):
+
+For a normal random variable $X \sim N(\mu, \sigma^2)$, we know that
+\[
+E[X] = \mu.
+\]
+The sample version of $E[X]$ is the sample mean
+\[
+\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i.
+\]
+The method of moments sets the sample mean equal to the population mean:
+\[
+\bar{X} = \mu.
+\]
+Therefore, the method of moments estimator for $\mu$ is
+\[
+\hat{\mu}_{\text{MoM}} = \bar{X} = \frac{1}{n}\sum_{i=1}^n X_i.
+\]
+
+\medskip
+\noindent
+Second moment (estimating $\sigma^2$):
+
+We use the formula that connects variance and the second moment:
+\[
+\operatorname{Var}(X) = E[X^2] - (E[X])^2.
+\]
+Here $\operatorname{Var}(X) = \sigma^2$ and $E[X] = \mu$, so
+\[
+\sigma^2 = E[X^2] - \mu^2
+\quad\Longrightarrow\quad
+E[X^2] = \sigma^2 + \mu^2.
+\]
+
+The sample version of $E[X^2]$ is
+\[
+\frac{1}{n}\sum_{i=1}^n X_i^2.
+\]
+The method of moments sets
+\[
+\frac{1}{n}\sum_{i=1}^n X_i^2 = E[X^2] = \sigma^2 + \mu^2.
+\]
+
+Now we replace $\mu$ with its estimator $\hat{\mu}_{\text{MoM}} = \bar{X}$:
+\[
+\frac{1}{n}\sum_{i=1}^n X_i^2 = \hat{\sigma}^2_{\text{MoM}} + \bar{X}^2.
+\]
+Solving for $\hat{\sigma}^2_{\text{MoM}}$ gives
+\[
+\hat{\sigma}^2_{\text{MoM}} = \frac{1}{n}\sum_{i=1}^n X_i^2 - \bar{X}^2.
+\]
+
+\medskip
+\noindent
+Final answer: The method of moments estimators are
+\[
+\boxed{
+\hat{\mu}_{\text{MoM}} = \bar{X}
+\quad\text{and}\quad
+\hat{\sigma}^2_{\text{MoM}} = \frac{1}{n}\sum_{i=1}^n X_i^2 - \bar{X}^2.
+}
+\]
+
+\newpage
+
+\subsection*{\textit{Question 3.1.6}}
+
+Suppose $X_1, X_2, \ldots, X_n$ are i.i.d.\ $\operatorname{Poisson}(\lambda)$, with $E[X] = \lambda$ and $n \ge 2$. We have three estimators:
+\[
+\hat{\lambda}_1 = \frac{X_1 + X_2}{2}, \qquad
+\hat{\lambda}_2 = \frac{n}{n+1}\,\bar{X}, \qquad
+\hat{\lambda}_3 = \bar{X},
+\]
+where $\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$.
+
+\begin{enumerate}
+    \item[(a)] Find each estimator's bias. Which ones are unbiased?
+
+    \item[(b)] Find each estimator's variance and MSE. Analyzing just $\hat{\lambda}_2$ and $\hat{\lambda}_3$, which estimator has a lower MSE under the following two scenarios? For each scenario, figure out which sample sizes make $\hat{\lambda}_2$ outperform $\hat{\lambda}_3$ (or state whether one estimator will always outperform the other under that scenario). \emph{Hint:} It may help to compute an expression for
+    \[
+    \operatorname{MSE}(\hat{\lambda}_3) - \operatorname{MSE}(\hat{\lambda}_2),
+    \]
+    then solve analytically.
+
+    \item[(c)] Scenario 1: $\lambda = 1$.
+
+    \item[(d)] Scenario 2: $\lambda = 2.5$.
+
+    \item[(e)] Based on the results in parts (c)--(d), does an unbiased estimator always have a lower MSE than other estimators? Provide a short explanation using the decomposition of MSE in terms of Bias and Variance. (Any reasonable explanation can receive full credit.)
+\end{enumerate}
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+In this problem, we again work with Poisson random variables. This is very similar to Question 3.1.1, where we also estimated the mean of a Poisson distribution. Because the Poisson distribution has the property that $E[X] = \lambda$, many of the steps here follow the exact same pattern as in Question 3.1.1. The only difference is that we are now comparing different estimators.
+
+We are given i.i.d.\ random variables $X_1, X_2, \dots, X_n \sim \text{Poisson}(\lambda)$ with $n \ge 2$. We have three estimators:
+\[
+\hat{\lambda}_1 = \frac{X_1 + X_2}{2}, \qquad
+\hat{\lambda}_2 = \frac{n}{n+1}\bar{X}, \qquad
+\hat{\lambda}_3 = \bar{X},
+\]
+where
+\[
+\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i.
+\]
+Because $E[X_i] = \lambda$ for a Poisson distribution, we can easily compute each estimator's bias, variance, and MSE.
+
+\medskip
+\noindent
+(a) Bias of each estimator:
+
+The bias of an estimator $\hat{\lambda}$ is defined as
+\[
+\operatorname{Bias}(\hat{\lambda}) = E[\hat{\lambda}] - \lambda.
+\]
+
+\medskip
+\noindent
+Estimator $\hat{\lambda}_1$:
+\[
+E[\hat{\lambda}_1]
+= E\!\left[\frac{X_1 + X_2}{2}\right]
+= \frac{1}{2}\big(E[X_1] + E[X_2]\big)
+= \frac{1}{2}(\lambda + \lambda)
+= \lambda.
+\]
+Thus,
+\[
+\operatorname{Bias}(\hat{\lambda}_1) = 0.
+\]
+So $\hat{\lambda}_1$ is unbiased.
+
+\medskip
+\noindent
+Estimator $\hat{\lambda}_3 = \bar{X}$:
+
+Since $\bar{X}$ is the average of $n$ Poisson random variables,
+\[
+E[\bar{X}] = \lambda.
+\]
+Thus,
+\[
+\operatorname{Bias}(\hat{\lambda}_3) = 0.
+\]
+So $\hat{\lambda}_3$ is also unbiased. This is exactly the same result we found in Question 3.1.1.
+
+\medskip
+\noindent
+Estimator $\hat{\lambda}_2 = \frac{n}{n+1}\bar{X}$:
+\[
+E[\hat{\lambda}_2]
+= \frac{n}{n+1}E[\bar{X}]
+= \frac{n}{n+1}\lambda.
+\]
+So the bias is
+\[
+\operatorname{Bias}(\hat{\lambda}_2)
+= \frac{n}{n+1}\lambda - \lambda
+= -\frac{\lambda}{n+1}.
+\]
+This estimator is biased and slightly underestimates $\lambda$.
+
+\[
+\boxed{\text{Unbiased: } \hat{\lambda}_1, \hat{\lambda}_3 \quad \text{Biased: } \hat{\lambda}_2}
+\]
+
+\medskip
+\noindent
+(b) Variance and MSE of each estimator:
+
+For Poisson random variables, $\operatorname{Var}(X_i) = \lambda$. We also use the fact that the variance of a scaled random variable is the square of the scale factor times the variance.
+
+\medskip
+\noindent
+Estimator $\hat{\lambda}_1$:
+\[
+\operatorname{Var}(\hat{\lambda}_1)
+= \operatorname{Var}\!\left(\frac{X_1 + X_2}{2}\right)
+= \frac{1}{4}\operatorname{Var}(X_1 + X_2)
+= \frac{1}{4}(2\lambda)
+= \frac{\lambda}{2}.
+\]
+Since it is unbiased,
+\[
+\operatorname{MSE}(\hat{\lambda}_1) = \frac{\lambda}{2}.
+\]
+
+\medskip
+\noindent
+Estimator $\hat{\lambda}_3 = \bar{X}$:
+\[
+\operatorname{Var}(\bar{X})
+= \frac{\lambda}{n}.
+\]
+Since $\bar{X}$ is unbiased,
+\[
+\operatorname{MSE}(\hat{\lambda}_3) = \frac{\lambda}{n}.
+\]
+
+\medskip
+\noindent
+Estimator $\hat{\lambda}_2 = \frac{n}{n+1}\bar{X}$:
+\[
+\operatorname{Var}(\hat{\lambda}_2)
+= \left(\frac{n}{n+1}\right)^2\operatorname{Var}(\bar{X})
+= \left(\frac{n}{n+1}\right)^2\frac{\lambda}{n}
+= \frac{\lambda n}{(n+1)^2}.
+\]
+Since it is biased, its MSE is
+\[
+\operatorname{MSE}(\hat{\lambda}_2)
+= \operatorname{Var}(\hat{\lambda}_2) + \operatorname{Bias}(\hat{\lambda}_2)^2
+= \frac{\lambda n}{(n+1)^2}
+  + \frac{\lambda^2}{(n+1)^2}
+= \frac{\lambda(n + \lambda)}{(n+1)^2}.
+\]
+
+\[
+\boxed{\begin{aligned}
+&\text{MSE}(\hat{\lambda}_1) = \frac{\lambda}{2}, \quad
+\text{MSE}(\hat{\lambda}_2) = \frac{\lambda(n+\lambda)}{(n+1)^2}, \quad
+\text{MSE}(\hat{\lambda}_3) = \frac{\lambda}{n}
+\end{aligned}}
+\]
+
+\medskip
+\noindent
+(c) Scenario 1: $\lambda = 1$
+
+We compare $\hat{\lambda}_2$ and $\hat{\lambda}_3$. Their MSEs become
+\[
+\operatorname{MSE}(\hat{\lambda}_3) = \frac{1}{n}, \qquad
+\operatorname{MSE}(\hat{\lambda}_2) = \frac{1(n+1)}{(n+1)^2}
+= \frac{1}{n+1}.
+\]
+Since $\frac{1}{n+1} < \frac{1}{n}$ for all $n \ge 2$, we conclude that
+
+\[
+\boxed{\hat{\lambda}_2 \text{ has the lower MSE for all sample sizes } n \ge 2.}
+\]
+
+\medskip
+\noindent
+(d) Scenario 2: $\lambda = 2.5$
+
+Here,
+\[
+\operatorname{MSE}(\hat{\lambda}_3) = \frac{2.5}{n}, \qquad
+\operatorname{MSE}(\hat{\lambda}_2)
+= \frac{2.5(n + 2.5)}{(n+1)^2}.
+\]
+
+A helpful way to compare is to subtract the two MSE values:
+\[
+\operatorname{MSE}(\hat{\lambda}_3) - \operatorname{MSE}(\hat{\lambda}_2)
+= \frac{\lambda(2n + 1 - n\lambda)}{n(n+1)^2}.
+\]
+When $\lambda = 2.5$, the sign depends on $1 - 0.5n$.
+
+\begin{itemize}
+    \item If $n = 2$, then $1 - 0.5n = 0$, so the MSE values are equal.
+    \item If $n > 2$, then $1 - 0.5n < 0$, so $\operatorname{MSE}(\hat{\lambda}_3) < \operatorname{MSE}(\hat{\lambda}_2)$.
+\end{itemize}
+
+Thus,
+\[
+\boxed{\hat{\lambda}_3 \text{ has the lower MSE for all } n > 2, \text{ and they tie at } n = 2.}
+\]
+
+\medskip
+\noindent
+(e) Do unbiased estimators always have lower MSE?
+
+No. An estimator with small bias and very small variance can have a lower MSE than an unbiased estimator. The MSE formula,
+\[
+\operatorname{MSE}(\hat{\lambda})
+= \operatorname{Var}(\hat{\lambda}) + \operatorname{Bias}(\hat{\lambda})^2,
+\]
+shows that both parts matter. In Scenario 1, $\hat{\lambda}_2$ has a small negative bias, but its variance is much smaller than the variance of $\hat{\lambda}_3$. As a result, even though $\hat{\lambda}_3$ is unbiased, it does not always have the lowest MSE.
+
+\[
+\boxed{\text{No, unbiased estimators do not always have the lowest MSE.}}
+\]
+
+
+\newpage
+
+\textbf{Chapter 8: Maximum Likelihood Estimation and Likelihood-Based Inference}
+
+\vspace{0.5cm}
+
+In the last chapter we met the Method of Moments, a friendly way to estimate parameters by matching sample moments to population moments. This chapter introduces another major tool of statistical inference: maximum likelihood estimation, usually called MLE for short. MLE is extremely popular because it works for many different distributions and often gives clean, elegant formulas for estimators.
+
+The general idea is simple: if you plug your data into the model, some values of the parameter make the data look ``more likely'' than others. The MLE is just the parameter value that makes your data most believable under the model. In other words, we ask:
+
+\begin{quote}
+    ``If the universe secretly picked $\theta$, which $\theta$ makes what I observed the least surprising?''
+\end{quote}
+
+To answer this, we build the likelihood function, denoted $L(\theta)$, and sometimes---because humans prefer easier math---we take its natural log to get the log-likelihood, which is simpler to differentiate and avoids multiplying a thousand tiny numbers together.
+
+This chapter also revisits ideas like bias, variance, and the mean squared error (MSE). These help us judge how well an estimator performs. Just like people, estimators can behave differently: some are consistent, some are biased, and some try their best but still wander around too much. The MSE gives us a single number that summarizes both how far off an estimator is on average and how much it tends to vary.
+
+We will also work with pivotal quantities---special functions of the data whose distribution does not depend on unknown parameters. These appear when we transform sums of well-known distributions (like exponentials) into familiar distributions (like the chi-square). It sounds more mysterious than it is; think of it as statistical recycling.
+
+\subsection*{R Markdown: Your New Best Friend (If You Treat It Nicely)}
+
+Several problems in this chapter ask you to write R code to visualize likelihood functions or compute MLEs directly. To make this easier---and to keep your work organized---you will use R Markdown, a format that lets you combine text, math, R code, and plots in one neat document.
+
+Before working through the exercises, you will need to install a few tools. Since many students (including the author of this text) use a MacBook, we give instructions for both macOS and Windows.
+
+\subsubsection*{Installing R and RStudio on macOS (MacBook)}
+
+\begin{enumerate}
+    \item Install R.
+    Visit \texttt{https://cran.r-project.org}, click ``Download R for macOS,'' choose the appropriate \texttt{.pkg} file (Apple Silicon or Intel), and follow the installer.
+
+    \item Install RStudio.
+    Go to \texttt{https://posit.co/download/rstudio-desktop/}.
+    Download the macOS version, open the \texttt{.dmg}, and drag RStudio into Applications.
+
+    \item Install R Markdown.
+    Open RStudio and type in the Console:
+\begin{verbatim}
+install.packages("rmarkdown")
+\end{verbatim}
+\end{enumerate}
+
+\subsubsection*{Installing R and RStudio on Windows}
+
+\begin{enumerate}
+    \item Install R from CRAN (Download R for Windows $\rightarrow$ base).
+    \item Install RStudio using the Windows installer from the Posit website.
+    \item Install R Markdown:
+\begin{verbatim}
+install.packages("rmarkdown")
+\end{verbatim}
+\end{enumerate}
+
+\subsection*{Very Important: Type in the Source, Not the Console}
+
+RStudio provides two main areas for typing code:
+
+\begin{itemize}
+    \item the Console, where commands run immediately but are not saved, and
+    \item the Source editor, where R Markdown files (with extension \texttt{.Rmd}) are written, saved, and knit into PDFs.
+\end{itemize}
+
+For homework, you should \emph{always} work in the Source editor. Typing code into the Console may produce output, but it will not be included in your final document. Typing into an \texttt{.Rmd} file ensures that all code, output, and plots appear in one place.
+
+To create a new R Markdown file:
+
+\begin{enumerate}
+    \item Go to \texttt{File} $\rightarrow$ \texttt{New File} $\rightarrow$ \texttt{R Markdown\ldots}
+    \item Choose ``Document.''
+    \item Save the file as \texttt{discussion8.Rmd}.
+\end{enumerate}
+
+Inside the file, normal text appears in paragraphs, while R code goes in special chunks:
+
+\begin{verbatim}
+```{r}
+# Your R code goes here
+```
+\end{verbatim}
+
+
+\newpage
+
+\subsection*{\textit{Question 3.2.1}}
+
+Let $X_1, X_2, \ldots, X_n$ be a random sample of size $n$ from the distribution with pdf
+\[
+f(x;\theta) = \theta x^{\theta - 1}, \qquad 0 < x < 1,\; 0 < \theta < \infty.
+\]
+
+\begin{enumerate}
+    \item[(a)] Find the MoM estimator for $\theta$.
+    \item[(b)] Find the MLE for $\theta$.
+\end{enumerate}
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+(a) We are asked to find the method of moments (MoM) estimator for $\theta$.
+
+\medskip
+\textit{First Solution (Integral Method).}
+
+The pdf of $X$ is
+\[
+f(x;\theta) = \theta x^{\theta-1}, \qquad 0 < x < 1,\ \theta>0.
+\]
+The method of moments uses the equation
+\[
+\bar X = E[X],
+\]
+so we first compute the theoretical mean. Using the definition of expectation,
+\[
+E[X]
+= \int_0^1 x f(x;\theta)\,dx
+= \int_0^1 x \cdot \theta x^{\theta-1}\,dx
+= \theta \int_0^1 x^{\theta}\,dx.
+\]
+Evaluating the integral,
+\[
+\int_0^1 x^{\theta}\,dx =
+\left[ \frac{x^{\theta+1}}{\theta+1} \right]_0^1
+= \frac{1}{\theta+1}.
+\]
+Therefore,
+\[
+E[X] = \frac{\theta}{\theta+1}.
+\]
+
+The method of moments sets
+\[
+\bar X = \frac{\theta}{\theta+1},
+\]
+and solving for $\theta$ gives
+\[
+\bar X(\theta+1) = \theta,
+\]
+\[
+\theta(1 - \bar X) = \bar X,
+\]
+\[
+\hat{\theta}_{\text{MoM}}
+= \frac{\bar X}{1 - \bar X}.
+\]
+
+Hence the MoM estimator is
+\[
+\boxed{\hat{\theta}_{\text{MoM}} = \frac{\bar X}{\,1 - \bar X\,}}.
+\]
+
+\bigskip
+\textit{Second Solution (Trick Method: Recognizing the Distribution).}
+
+The given pdf can be rewritten as
+\[
+f(x;\theta) = \theta x^{\theta-1}.
+\]
+This is exactly the pdf of a $\mathrm{Beta}(\alpha,\beta)$ distribution with parameters
+\[
+\alpha = \theta, \qquad \beta = 1.
+\]
+The mean of a $\mathrm{Beta}(\alpha,\beta)$ random variable is
+\[
+E[X] = \frac{\alpha}{\alpha+\beta}.
+\]
+Substituting $\alpha=\theta$ and $\beta=1$,
+\[
+E[X] = \frac{\theta}{\theta+1}.
+\]
+
+The method of moments again sets $\bar X = E[X]$, giving
+\[
+\bar X = \frac{\theta}{\theta+1}
+\quad\Longrightarrow\quad
+\hat{\theta}_{\text{MoM}} = \frac{\bar X}{1-\bar X}.
+\]
+
+Thus the estimator is
+\[
+\boxed{\hat{\theta}_{\text{MoM}} = \frac{\bar X}{\,1 - \bar X\,}}.
+\]
+
+\vspace{1cm}
+
+(b) We now find the maximum likelihood estimator (MLE) for $\theta$.
+
+The pdf of each observation is
+\[
+f(x;\theta) = \theta x^{\theta-1}, \qquad 0 < x < 1, \ \theta > 0.
+\]
+
+\textit{Step 1: Form the likelihood.}
+
+Because $X_1, X_2, \dots, X_n$ are independent, the joint density is the
+product of the individual densities:
+\[
+L(\theta)
+= \prod_{i=1}^n f(X_i;\theta)
+= \prod_{i=1}^n \left[\theta X_i^{\theta-1}\right].
+\]
+We may separate this product into
+\[
+L(\theta)
+= \theta^n \prod_{i=1}^n X_i^{\theta-1}.
+\]
+
+\textit{Step 2: Take the natural log of the likelihood.}
+
+Maximizing the likelihood is equivalent to maximizing its log,
+and working with sums is easier than working with products.
+Using the log rules
+\[
+\log(a b) = \log a + \log b, \qquad
+\log(a^k) = k \log a, \qquad
+\log\left(\prod a_i\right) = \sum \log a_i,
+\]
+we have
+\[
+\ell(\theta)
+= \log L(\theta)
+= \log(\theta^n) + \log\left(\prod_{i=1}^n X_i^{\theta-1}\right).
+\]
+Applying the log rules,
+\[
+\ell(\theta)
+= n\log\theta + (\theta - 1)\sum_{i=1}^n \log X_i.
+\]
+
+\textit{Step 3: Differentiate the log-likelihood.}
+
+To find the maximizing value of $\theta$, we compute
+\[
+\frac{d\ell}{d\theta}
+= \frac{d}{d\theta}\left[n\log\theta\right]
++ \frac{d}{d\theta}\left[(\theta-1)\sum_{i=1}^n \log X_i\right].
+\]
+Since $\sum_{i=1}^n \log X_i$ is a constant with respect to $\theta$,
+\[
+\frac{d\ell}{d\theta}
+= \frac{n}{\theta} + \sum_{i=1}^n \log X_i.
+\]
+
+\textit{Step 4: Set the derivative equal to zero.}
+
+To find the extremum of the log-likelihood,
+\[
+\frac{n}{\theta} + \sum_{i=1}^n \log X_i = 0.
+\]
+Solving for $\theta$,
+\[
+\frac{n}{\theta} = -\sum_{i=1}^n \log X_i,
+\qquad\Longrightarrow\qquad
+\hat{\theta}_{\mathrm{MLE}}
+= -\frac{n}{\sum_{i=1}^n \log X_i}.
+\]
+
+\textit{Step 5: Verify that the solution corresponds to a maximum.}
+
+The second derivative is
+\[
+\frac{d^2\ell}{d\theta^2}
+= -\frac{n}{\theta^2}.
+\]
+Since this is always negative for $\theta>0$, the log-likelihood curve is concave,
+and the critical point indeed corresponds to a maximum.
+
+Hence, the maximum likelihood estimator is
+\[
+\boxed{\hat{\theta}_{\mathrm{MLE}} = -\frac{n}{\sum_{i=1}^n \log X_i}}.
+\]
+
+\newpage
+
+\subsection*{\textit{Question 3.2.2}}
+
+All parts of this question are based on the results from Exercise 1. You may either use RMarkdown to
+produce a new document (preferred) or take a screenshot of both, and attach them to your homework pdf
+(not as cool).
+
+We want to visualize the MLE from (Exercise 1) by plotting the likelihood function using R. Acceptable
+solutions should include both the code and the output.
+
+\subsubsection*{(a) \, (0.5 pts)}
+Create a likelihood function in R called \texttt{L}. This function should be in terms of $\theta$ (it will only
+have one argument), and will return the likelihood of $\theta$ from the likelihood equation you derived in
+Exercise 1.
+
+\noindent \textbf{Hint:} First, we want to create a function using the following pseudocode. Note that if you give R a vector $x$,
+you can use built-in functions to simplify this step such as \texttt{sum(x)} and \texttt{prod(x)}.
+\begin{verbatim}
+L <- function(<theta>){
+  <this should be the L(theta) or log L(theta) from
+   question number 1 with the actual values of x>
+}
+\end{verbatim}
+
+\subsubsection*{(b) \, (1 pt)}
+Suppose we observe the following random sample:
+\[
+x = (0.2, 0.5, 0.3, 0.2).
+\]
+Use this data and your function to plot (in R) the likelihood function as a function of $\theta$. Show both your
+code and your plot.
+
+\noindent \textbf{Plot specifications:}
+\begin{itemize}
+    \item Horizontal axis: $\theta$ values ranging from 0 to 5 (use \texttt{seq()} with a small step size)
+    \item Vertical axis: the likelihood function $L(\theta)$
+\end{itemize}
+
+\noindent \textbf{Hint:}
+\begin{verbatim}
+theta <- seq(??)   # define the range of theta
+x <- ??            # give R your observed data
+n <- ??            # sample size
+plot(??)           # plot the likelihood as a function of theta
+\end{verbatim}
+
+\subsubsection*{(c)}
+Repeat part (b) using a new sample:
+\[
+x = (0.6, 0.8, 0.7, 0.9, 0.8).
+\]
+
+\subsubsection*{(d)}
+In R, evaluate and report the value of the maximum likelihood estimate for $\theta$ using the sample in
+part (c). That is, code the MLE from Exercise 1 into R and evaluate it using the provided vector $x$.
+
+You may check your work by verifying that your numerical value agrees with the graphical result.
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+All parts of this question are based on the likelihood derived in Exercise~1. In this problem, we use R and RMarkdown to visualize the likelihood function and compute the maximum likelihood estimator (MLE). The explanations are written clearly so that a beginning student can follow the workflow step by step.
+
+\medskip
+\noindent\textbf{Setting Up the RMarkdown File}
+
+To create a new RMarkdown document in RStudio:
+\[
+\text{File} \rightarrow \text{New File} \rightarrow \text{R Markdown}.
+\]
+Choose "PDF" as the output format. If RStudio cannot knit to PDF, install a \LaTeX{} distribution such as \texttt{tinytex}.
+
+In an RMarkdown file, regular text is written normally, while R code is placed inside code chunks. Below is how an R chunk looks; the backticks are escaped with backslashes to prevent breaking this LaTeX block:
+
+\texttt{\textbackslash{}\textbacktick{}\textbacktick{}\textbacktick\{r\}} \\
+\texttt{\# R code goes here} \\
+\texttt{\textbackslash{}\textbacktick{}\textbacktick{}\textbacktick} \\
+
+\medskip
+\noindent\textbf{(a) Creating the Likelihood Function in R}
+
+From Exercise~1, the likelihood for $X_1,\dots,X_n$ from $f(x;\theta)=\theta x^{\theta-1}$ is:
+\[
+L(\theta)=\theta^n\prod_{i=1}^n X_i^{\theta-1}.
+\]
+
+The R function implementing this likelihood is written in RMarkdown as:
+
+\texttt{\textbackslash{}\textbacktick{}\textbacktick{}\textbacktick\{r\}} \\
+\texttt{L <- function(theta, x)\{} \\
+\texttt{\ \ n <- length(x)} \\
+\texttt{\ \ return(theta\^{}n * prod(x\^{}(theta - 1)))} \\
+\texttt{\}} \\
+\texttt{\textbackslash{}\textbacktick{}\textbacktick{}\textbacktick} \\
+
+\medskip
+\noindent\textbf{(b) Likelihood Plot for the Sample $(0.2, 0.5, 0.3, 0.2)$}
+
+We define a sequence for $\theta$ and compute $L(\theta)$ over that range:
+
+\texttt{\textbackslash{}\textbacktick{}\textbacktick{}\textbacktick\{r\}} \\
+\texttt{x <- c(0.2, 0.5, 0.3, 0.2)} \\
+\texttt{theta\_vals <- seq(0.01, 5, by = 0.01)} \\
+\texttt{lik\_vals <- sapply(theta\_vals, L, x = x)} \\[4pt]
+\texttt{plot(theta\_vals, lik\_vals, type = "l",} \\
+\texttt{\ \ \ \ xlab = expression(theta),} \\
+\texttt{\ \ \ \ ylab = "Likelihood L(theta)",} \\
+\texttt{\ \ \ \ main = "Likelihood for Sample (0.2, 0.5, 0.3, 0.2)")} \\
+\texttt{\textbackslash{}\textbacktick{}\textbacktick{}\textbacktick} \\
+
+\medskip
+\noindent\textbf{(c) Likelihood Plot for $(0.6, 0.8, 0.7, 0.9, 0.8)$}
+
+\texttt{\textbackslash{}\textbacktick{}\textbacktick{}\textbacktick\{r\}} \\
+\texttt{x2 <- c(0.6, 0.8, 0.7, 0.9, 0.8)} \\
+\texttt{theta\_vals <- seq(0.01, 5, by = 0.01)} \\
+\texttt{lik\_vals\_2 <- sapply(theta\_vals, L, x = x2)} \\[4pt]
+\texttt{plot(theta\_vals, lik\_vals\_2, type = "l",} \\
+\texttt{\ \ \ \ xlab = expression(theta),} \\
+\texttt{\ \ \ \ ylab = "Likelihood L(theta)",} \\
+\texttt{\ \ \ \ main = "Likelihood for Sample (0.6, 0.8, 0.7, 0.9, 0.8)")} \\
+\texttt{\textbackslash{}\textbacktick{}\textbacktick{}\textbacktick} \\
+
+\medskip
+\noindent\textbf{(d) Computing the Maximum Likelihood Estimate}
+
+From Exercise~1:
+\[
+\hat{\theta}_{\mathrm{MLE}} = -\frac{n}{\sum_{i=1}^n \log X_i}.
+\]
+
+The R code implementing this is:
+
+\texttt{\textbackslash{}\textbacktick{}\textbacktick{}\textbacktick\{r\}} \\
+\texttt{MLE <- function(x)\{} \\
+\texttt{\ \ n <- length(x)} \\
+\texttt{\ \ return(-n / sum(log(x)))} \\
+\texttt{\}} \\[4pt]
+\texttt{MLE(x2)} \\
+\texttt{\textbackslash{}\textbacktick{}\textbacktick{}\textbacktick} \\
+
+\medskip
+\noindent\textbf{Summary}
+
+In this exercise, we:
+\begin{itemize}
+    \item created a likelihood function in R,
+    \item plotted likelihood functions for two samples,
+    \item wrote analysis and code in RMarkdown, and
+    \item knitted the result into a PDF.
+\end{itemize}
+This demonstrates how mathematical reasoning, computation, and visualization can be combined into a single reproducible file.
+
+\newpage
+
+\subsection*{\textit{\textbf{Question 3.2.3}}}
+
+Suppose $X_1, X_2, \ldots, X_n$ are i.i.d.\ Normal$(\mu, \sigma^2)$. The pdf is
+\[
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\!\left( -\frac{(x-\mu)^2}{2\sigma^2} \right),
+\qquad x \in (-\infty,\infty).
+\]
+
+\begin{enumerate}
+    \item[(a)] (1 pt) Find the MLE of $\mu$ and $\sigma^2$.
+    \item[(b)] (1 pt) Find the Bias, Variance, and MSE of the MLE for $\mu$, $\hat{\mu}$.
+    \item[(c)] (1 pt) Find the Bias of the MLE of $\sigma^2$. Does it overestimate or underestimate the variance?
+\end{enumerate}
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+(a) We want to find the maximum likelihood estimators (MLEs) of $\mu$ and $\sigma^2$ for i.i.d.\ observations
+\[
+X_1, X_2, \ldots, X_n \sim \mathrm{Normal}(\mu,\sigma^2),
+\]
+with pdf
+\[
+f(x;\mu,\sigma^2)
+= \frac{1}{\sqrt{2\pi\sigma^2}}
+  \exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right).
+\]
+
+\textit{Step 1: Write the likelihood.}
+
+For a single observation $X_i = x_i$, the density is the expression above.
+For all $n$ independent observations, the likelihood is the product of the densities:
+\[
+L(\mu,\sigma^2)
+= \prod_{i=1}^n
+  \left[
+    \frac{1}{\sqrt{2\pi\sigma^2}}
+    \exp\!\left(-\frac{(x_i-\mu)^2}{2\sigma^2}\right)
+  \right].
+\]
+
+\textit{Step 2: Take the log of the likelihood.}
+
+We define the log-likelihood
+\[
+\ell(\mu,\sigma^2) = \log L(\mu,\sigma^2).
+\]
+Using log rules $\log(\prod a_i)=\sum\log a_i$, $\log(ab)=\log a+\log b$, and $\log(e^y)=y$, we obtain
+\[
+\ell(\mu,\sigma^2)
+= \sum_{i=1}^n
+  \left[
+    \log\left(\frac{1}{\sqrt{2\pi\sigma^2}}\right)
+    - \frac{(x_i-\mu)^2}{2\sigma^2}
+  \right].
+\]
+
+The first term does not depend on $i$, so summing it $n$ times gives
+\[
+\sum_{i=1}^n \log\left(\frac{1}{\sqrt{2\pi\sigma^2}}\right)
+= n \log\left(\frac{1}{\sqrt{2\pi\sigma^2}}\right)
+= -\frac{n}{2}\log(2\pi\sigma^2).
+\]
+Thus the log-likelihood simplifies to
+\[
+\ell(\mu,\sigma^2)
+= -\frac{n}{2}\log(2\pi\sigma^2)
+  - \frac{1}{2\sigma^2}\sum_{i=1}^n (x_i-\mu)^2.
+\]
+
+\textit{Step 3: Differentiate with respect to $\mu$.}
+
+\[
+\frac{\partial \ell}{\partial \mu}
+= \frac{1}{\sigma^2}\sum_{i=1}^n (x_i - \mu).
+\]
+Setting this equal to zero,
+\[
+\sum_{i=1}^n (x_i - \mu) = 0
+\quad\Longrightarrow\quad
+n\mu = \sum_{i=1}^n x_i
+\quad\Longrightarrow\quad
+\hat{\mu} = \bar{x}.
+\]
+
+\textit{Step 4: Differentiate with respect to $\sigma^2$.}
+
+\[
+\frac{\partial \ell}{\partial \sigma^2}
+= -\frac{n}{2\sigma^2}
+  + \frac{1}{2(\sigma^2)^2}\sum_{i=1}^n (x_i - \mu)^2.
+\]
+Set the derivative equal to zero:
+\[
+-\frac{n}{2\sigma^2}
++ \frac{1}{2(\sigma^2)^2}\sum_{i=1}^n (x_i - \mu)^2 = 0.
+\]
+Multiply both sides by $2(\sigma^2)^2$ to remove fractions:
+\[
+-n\sigma^2 + \sum_{i=1}^n (x_i - \mu)^2 = 0.
+\]
+Thus,
+\[
+\hat{\sigma}^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2.
+\]
+
+\textit{Final MLEs:}
+\[
+\boxed{\hat{\mu} = \bar{X}},
+\qquad
+\boxed{\hat{\sigma}^2_{\mathrm{MLE}}
+= \frac{1}{n}\sum_{i=1}^n (X_i - \bar{X})^2}.
+\]
+
+\vspace{1cm}
+
+(b) From part (a), the MLE for $\mu$ is $\hat{\mu} = \bar{X}$. Since $X_1,\dots,X_n$ are i.i.d.\ $N(\mu,\sigma^2)$, we use the formulas from the sheet for the sample mean:
+\[
+E[\bar{X}] = E[X], \qquad \operatorname{Var}(\bar{X}) = \frac{\operatorname{Var}(X)}{n}.
+\]
+Here $E[X] = \mu$ and $\operatorname{Var}(X) = \sigma^2$. Therefore,
+\[
+E[\hat{\mu}] = E[\bar{X}] = \mu,
+\]
+so
+\[
+\text{Bias}(\hat{\mu}) = E[\hat{\mu}] - \mu = \mu - \mu = 0.
+\]
+
+The variance of $\hat{\mu}$ is
+\[
+\operatorname{Var}(\hat{\mu}) = \operatorname{Var}(\bar{X}) = \frac{\sigma^2}{n}.
+\]
+
+Using the MSE formula
+\[
+\mathrm{MSE}(\hat{\theta}) = \operatorname{Var}(\hat{\theta}) + \text{Bias}(\hat{\theta})^2,
+\]
+we obtain
+\[
+\mathrm{MSE}(\hat{\mu})
+= \operatorname{Var}(\hat{\mu}) + \text{Bias}(\hat{\mu})^2
+= \frac{\sigma^2}{n} + 0^2
+= \frac{\sigma^2}{n}.
+\]
+
+Thus,
+\[
+\boxed{\text{Bias}(\hat{\mu}) = 0, \quad
+       \operatorname{Var}(\hat{\mu}) = \frac{\sigma^2}{n}, \quad
+       \mathrm{MSE}(\hat{\mu}) = \frac{\sigma^2}{n}.}
+\]
+
+\vspace{1cm}
+
+(c) From part (a), the MLE for $\sigma^2$ is
+\[
+\hat{\sigma}^2_{\mathrm{MLE}} = \frac{1}{n}\sum_{i=1}^n (X_i - \bar{X})^2.
+\]
+
+On the formula sheet, the \emph{sample variance} is defined as
+\[
+s^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2.
+\]
+Notice the only difference is the denominator: $n$ for $\hat{\sigma}^2_{\mathrm{MLE}}$ versus $n-1$ for $s^2$.
+
+We can write $\hat{\sigma}^2_{\mathrm{MLE}}$ in terms of $s^2$:
+\[
+\hat{\sigma}^2_{\mathrm{MLE}}
+= \frac{1}{n}\sum_{i=1}^n (X_i - \bar{X})^2
+= \frac{n-1}{n} \cdot \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2
+= \frac{n-1}{n} s^2.
+\]
+
+It is a standard result (proved in class or in the text) that $s^2$ is an \emph{unbiased} estimator of $\sigma^2$, that is,
+\[
+E[s^2] = \sigma^2.
+\]
+Therefore,
+\[
+E\bigl[\hat{\sigma}^2_{\mathrm{MLE}}\bigr]
+= E\left[\frac{n-1}{n}s^2\right]
+= \frac{n-1}{n}E[s^2]
+= \frac{n-1}{n}\sigma^2.
+\]
+
+The bias is
+\[
+\text{Bias}\bigl(\hat{\sigma}^2_{\mathrm{MLE}}\bigr)
+= E\bigl[\hat{\sigma}^2_{\mathrm{MLE}}\bigr] - \sigma^2
+= \frac{n-1}{n}\sigma^2 - \sigma^2
+= -\frac{1}{n}\sigma^2.
+\]
+
+Since the bias is negative, $E[\hat{\sigma}^2_{\mathrm{MLE}}] < \sigma^2$, so the MLE for $\sigma^2$ \emph{underestimates} the true variance on average.
+
+Thus,
+\[
+\boxed{\text{Bias}\bigl(\hat{\sigma}^2_{\mathrm{MLE}}\bigr)
+      = -\frac{\sigma^2}{n}
+      \quad\text{and it underestimates the variance.}}
+\]
+
+\newpage
+
+\subsection*{\textbf{\textit{Question 3.2.4}}}
+
+Given the following i.i.d.\ samples $X_1, \ldots, X_n$ from a discrete distribution with probability mass function $f(x)$ shown in the table below,
+\[
+\begin{array}{c|ccc}
+x & 1 & 2 & 3 \\ \hline
+f(x) & \theta & 2\theta & 1 - 3\theta
+\end{array}
+\]
+find the maximum likelihood estimator (MLE) of $\theta$.
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+We are told that each $X_i$ can only take the values $1, 2,$ or $3$, with probabilities
+\[
+P(X=1) = \theta, \quad P(X=2) = 2\theta, \quad P(X=3) = 1 - 3\theta.
+\]
+
+We observe a sample $X_1, X_2, \ldots, X_n$ from this distribution and want to find the value of $\theta$ that makes our observed data ``most likely.'' This is what the \emph{maximum likelihood estimator} (MLE) does.
+
+\medskip
+\textit{Step 1: Count how many times each value appears.}
+
+Let
+\[
+n_1 = \text{number of times we see } 1, \quad
+n_2 = \text{number of times we see } 2, \quad
+n_3 = \text{number of times we see } 3.
+\]
+Then
+\[
+n_1 + n_2 + n_3 = n.
+\]
+
+\medskip
+\textit{Step 2: Write the likelihood.}
+
+Each time we see a $1$, we get a factor of $\theta$ in the probability.
+Each time we see a $2$, we get a factor of $2\theta$.
+Each time we see a $3$, we get a factor of $1 - 3\theta$.
+
+Because all observations are independent, we multiply these together:
+\[
+L(\theta)
+= \theta^{n_1} (2\theta)^{n_2} (1 - 3\theta)^{n_3}.
+\]
+
+We can rewrite this a bit more neatly:
+\[
+L(\theta)
+= 2^{\,n_2} \theta^{n_1 + n_2} (1 - 3\theta)^{n_3}.
+\]
+
+\medskip
+\textit{Step 3: Take the log of the likelihood.}
+
+It is easier to maximize the log of the likelihood than the likelihood itself. Define the log-likelihood
+\[
+\ell(\theta) = \log L(\theta).
+\]
+Using the rules $\log(a^k) = k \log a$ and $\log(ab) = \log a + \log b$, we get:
+\[
+\ell(\theta)
+= n_2 \log 2 + (n_1 + n_2)\log \theta + n_3 \log(1 - 3\theta).
+\]
+
+\medskip
+\textit{Step 4: Differentiate and set equal to zero.}
+
+Now we take the derivative with respect to $\theta$:
+\[
+\frac{d\ell}{d\theta}
+= \frac{n_1 + n_2}{\theta}
+  + n_3 \cdot \frac{1}{1 - 3\theta} \cdot (-3)
+= \frac{n_1 + n_2}{\theta} - \frac{3n_3}{1 - 3\theta}.
+\]
+
+To find the maximum, set this derivative equal to zero:
+\[
+\frac{n_1 + n_2}{\theta} - \frac{3n_3}{1 - 3\theta} = 0.
+\]
+
+\medskip
+\textit{Step 5: Solve this equation for $\theta$.}
+
+Move one term to the other side:
+\[
+\frac{n_1 + n_2}{\theta} = \frac{3n_3}{1 - 3\theta}.
+\]
+
+Now cross-multiply:
+\[
+(n_1 + n_2)(1 - 3\theta) = 3n_3 \theta.
+\]
+
+Expand the left-hand side:
+\[
+n_1 + n_2 - 3\theta(n_1 + n_2) = 3n_3 \theta.
+\]
+
+Group the $\theta$ terms together:
+\[
+n_1 + n_2 = 3\theta(n_1 + n_2) + 3n_3 \theta
+= 3\theta(n_1 + n_2 + n_3).
+\]
+
+But $n_1 + n_2 + n_3 = n$, so
+\[
+n_1 + n_2 = 3\theta n.
+\]
+
+Now solve for $\theta$:
+\[
+\theta = \frac{n_1 + n_2}{3n}.
+\]
+
+\medskip
+\textit{Final answer:}
+
+The maximum likelihood estimator of $\theta$ is
+\[
+\boxed{\hat{\theta}_{\mathrm{MLE}} = \frac{n_1 + n_2}{3n}},
+\]
+where $n_1$ is the number of observed 1's and $n_2$ is the number of observed 2's in the sample.
+
+\newpage
+
+\subsection*{\textbf{\textit{Question 3.2.5}}}
+
+Let $X_1, \ldots, X_n$ be an i.i.d.\ sample from $\mathrm{Uniform}(0,\theta)$. Find the maximum likelihood estimator for $\theta$.
+
+\noindent\textit{Hint:} First figure out and write the pdf and support for this random variable.
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+\textit{Step 1: Write the pdf and support.}
+
+If $X \sim \mathrm{Uniform}(0,\theta)$, then the pdf is
+\[
+f(x;\theta) =
+\begin{cases}
+\dfrac{1}{\theta}, & 0 < x < \theta, \\[4pt]
+0, & \text{otherwise.}
+\end{cases}
+\]
+
+This means:
+\begin{itemize}
+    \item Every value between $0$ and $\theta$ is equally likely.
+    \item Values smaller than $0$ or bigger than $\theta$ have probability $0$.
+\end{itemize}
+
+\textit{Step 2: Write the likelihood for the sample.}
+
+For a sample $X_1 = x_1, \ldots, X_n = x_n$, the joint pdf (likelihood) is the product of the individual pdfs:
+\[
+L(\theta)
+= \prod_{i=1}^n f(x_i;\theta).
+\]
+
+Using the pdf above, each $f(x_i;\theta)$ equals $\dfrac{1}{\theta}$ if $0 < x_i < \theta$, and $0$ otherwise. Thus,
+\[
+L(\theta)
+= \left(\frac{1}{\theta}\right)^n
+\quad \text{if all } x_i \text{ are in } (0,\theta),
+\]
+and
+\[
+L(\theta) = 0 \quad \text{if any } x_i \notin (0,\theta).
+\]
+
+So we can write this more compactly using the maximum observation:
+\[
+L(\theta) =
+\begin{cases}
+\theta^{-n}, & \text{if } \max\{x_1,\dots,x_n\} < \theta, \\[4pt]
+0, & \text{otherwise.}
+\end{cases}
+\]
+
+Let $M = \max\{x_1, \dots, x_n\}$.
+
+\textit{Step 3: Understand when the likelihood is nonzero.}
+
+For the likelihood to be positive (nonzero), we must have
+\[
+M < \theta.
+\]
+If $\theta$ is smaller than $M$, then at least one data point would lie outside $(0,\theta)$, making the likelihood $0$.
+
+So:
+\begin{itemize}
+    \item If $\theta < M$, then $L(\theta) = 0$.
+    \item If $\theta \ge M$, then $L(\theta) = \theta^{-n}$.
+\end{itemize}
+
+\textit{Step 4: Maximize the likelihood over $\theta$.}
+
+When $\theta \ge M$, the likelihood is
+\[
+L(\theta) = \theta^{-n}.
+\]
+As a function of $\theta$, $\theta^{-n}$ \emph{decreases} as $\theta$ gets bigger (because we are dividing by a larger number).
+
+Therefore, to make $L(\theta)$ as large as possible, we should choose $\theta$ as \emph{small} as possible, while still respecting the condition $\theta \ge M$.
+
+The smallest possible value of $\theta$ that satisfies $\theta \ge M$ is
+\[
+\theta = M = \max\{x_1,\dots,x_n\}.
+\]
+
+Thus, the value of $\theta$ that maximizes the likelihood is
+\[
+\hat{\theta}_{\mathrm{MLE}} = \max\{X_1,\dots,X_n\}.
+\]
+
+\textit{Final answer:}
+\[
+\boxed{\hat{\theta}_{\mathrm{MLE}} = \max\{X_1,\dots,X_n\}.}
+\]
+
+\newpage
+
+\subsection*{\textbf{\textit{Question 3.2.6}}}
+
+RMarkdown. Must submit both the code and output for (c) and (d).
+
+Suppose $X_1, X_2, \ldots, X_n \overset{iid}{\sim} \text{Bernoulli}(p)$.
+
+\begin{enumerate}
+    \item[(a)] Find an expression for the MLE of $p$, $\hat{p}$.
+    \item[(b)] Consider the following 3 estimators. Find the MSE of all three estimators:
+    \begin{itemize}
+        \item $\hat{p}_1$ is the MLE of $p$.
+        \item $\hat{p}_2 = 0.5$
+        \item $\hat{p}_3$ is the average of $0.5$ and $\bar{x}$. That is, $\hat{p}_3 = \dfrac{0.5 + \bar{x}}{2}$
+    \end{itemize}
+    \item[(c)] Let $n = 5$. Make a plot of all three MSEs (y-axis) vs values of the parameter, $p$, on the x-axis. Which estimator generally appears to be best when $0.4 < p < 0.6$?
+    \item[(d)] Repeat part (c) with $n = 100$. Which estimator appears to be best overall? Second best overall?
+\end{enumerate}
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+First, to set up R and R Markdown, create a new R Markdown file with the header
+
+\begin{verbatim}
+---
+title: "Question 3.2.6"
+output: pdf_document
+---
+\end{verbatim}
+
+and at the top of the document add the setup code
+
+\begin{verbatim}
+knitr::opts_chunk$set(echo = TRUE)
+\end{verbatim}
+
+so that R code and output are shown in the PDF when you knit.
+
+\medskip
+(a) To find the MLE of $p$:
+
+For $X_i \sim \text{Bernoulli}(p)$, the likelihood is
+\[
+L(p) = \prod_{i=1}^n p^{x_i}(1-p)^{1-x_i}.
+\]
+The log-likelihood is
+\[
+\ell(p) = \sum_{i=1}^n x_i \log p + (1-x_i)\log(1-p).
+\]
+Differentiate with respect to $p$:
+\[
+\frac{d\ell}{dp} = \frac{\sum_{i=1}^n x_i}{p} - \frac{n-\sum_{i=1}^n x_i}{1-p}.
+\]
+Set this derivative equal to $0$ and solve:
+\[
+\frac{\sum x_i}{p} = \frac{n-\sum x_i}{1-p}
+\quad\Rightarrow\quad
+\boxed{\hat{p} = \frac{1}{n}\sum_{i=1}^n x_i = \bar{x}}.
+\]
+
+\medskip
+(b) To find the MSEs of the three estimators:
+
+For a Bernoulli$(p)$ sample,
+\[
+\mathbb{E}[\bar{x}] = p, \qquad \operatorname{Var}(\bar{x}) = \frac{p(1-p)}{n}.
+\]
+
+\textbf{Estimator $\hat{p}_1 = \bar{x}$:}
+
+Bias$(\hat{p}_1) = 0$ and
+\[
+\boxed{\text{MSE}(\hat{p}_1) = \operatorname{Var}(\hat{p}_1) = \frac{p(1-p)}{n}}.
+\]
+
+\textbf{Estimator $\hat{p}_2 = 0.5$:}
+
+This estimator is constant, so its variance is $0$, and
+\[
+\text{Bias}(\hat{p}_2) = 0.5 - p,
+\qquad
+\boxed{\text{MSE}(\hat{p}_2) = (0.5 - p)^2}.
+\]
+
+\textbf{Estimator $\hat{p}_3 = (0.5 + \bar{x})/2$:}
+
+The mean of $\hat{p}_3$ is
+\[
+\mathbb{E}[\hat{p}_3] = \frac{0.5 + \mathbb{E}[\bar{x}]}{2}
+= \frac{0.5 + p}{2},
+\]
+so
+\[
+\text{Bias}(\hat{p}_3) = \mathbb{E}[\hat{p}_3] - p = 0.5 - \frac{p}{2}.
+\]
+Since $\hat{p}_3$ is a linear function of $\bar{x}$,
+\[
+\operatorname{Var}(\hat{p}_3) = \left(\frac{1}{2}\right)^2 \operatorname{Var}(\bar{x})
+= \frac{1}{4}\cdot \frac{p(1-p)}{n}
+= \frac{p(1-p)}{4n}.
+\]
+Therefore
+\[
+\boxed{\text{MSE}(\hat{p}_3)
+= \operatorname{Var}(\hat{p}_3) + (\text{Bias}(\hat{p}_3))^2
+= \frac{p(1-p)}{4n} + \left(0.5 - \frac{p}{2}\right)^2}.
+\]
+
+\medskip
+(c) Now let $n = 5$ and use R to compute and plot the three MSEs as functions of $p$.
+
+In your R Markdown file, include the following R code chunk:
+
+\begin{verbatim}
+n = 5
+p = seq(0, 1, 0.01)
+
+MSE_p1 = p*(1 - p)/n
+MSE_p2 = (0.5 - p)^2
+MSE_p3 = p*(1 - p)/(4*n) + (0.5 - p/2)^2
+
+plot(p, MSE_p1, type = "l", col = "blue", lwd = 2,
+     ylab = "MSE", xlab = "p", main = "MSE vs p, n = 5")
+lines(p, MSE_p2, col = "green", lwd = 2)
+lines(p, MSE_p3, col = "red", lwd = 2)
+
+# For 0.4 < p < 0.6, the estimator with the smallest
+# MSE is generally p1 (the MLE).
+\end{verbatim}
+
+When you knit to PDF, this code produces a plot with three curves.
+From that plot, for $0.4 < p < 0.6$, $\hat{p}_1$ has the smallest MSE and is preferred in that range.
+
+\[
+\boxed{\text{For } 0.4 < p < 0.6, \text{ } \hat{p}_1 \text{ (MLE) is best.}}
+\]
+
+\medskip
+(d) Repeat the procedure with $n = 100$ by changing only the line that sets $n$:
+
+\begin{verbatim}
+n = 100
+p = seq(0, 1, 0.01)
+
+MSE_p1 = p*(1 - p)/n
+MSE_p2 = (0.5 - p)^2
+MSE_p3 = p*(1 - p)/(4*n) + (0.5 - p/2)^2
+
+plot(p, MSE_p1, type = "l", col = "blue", lwd = 2,
+     ylab = "MSE", xlab = "p", main = "MSE vs p, n = 100")
+lines(p, MSE_p2, col = "green", lwd = 2)
+lines(p, MSE_p3, col = "red", lwd = 2)
+
+# For n = 100, p1 (MLE) has the smallest MSE
+# for most p, p3 is second best, and p2 is worst.
+\end{verbatim}
+
+For $n = 100$, the plot shows that $\hat{p}_1$ is best overall (lowest MSE across most values of $p$), $\hat{p}_3$ is second best, and $\hat{p}_2$ has the largest MSE over most of the parameter range.
+
+\[
+\boxed{\text{Best: } \hat{p}_1 \text{ (MLE). Second best: } \hat{p}_3. \text{ Worst: } \hat{p}_2.}
+\]
+
+\newpage
+
+\subsection*{\textbf{\textit{Question 3.2.7}}}
+
+MGF and Pivotal quantity.
+
+Let $X_1, X_2, \ldots, X_n \overset{iid}{\sim} \mathrm{Exp}(\theta)$.
+
+Use the properties of moment generating functions to show that
+\[
+Y \;=\; \frac{2}{\theta}\sum_{i=1}^n X_i
+\]
+is a pivotal quantity, and give the resulting distribution.
+
+\textit{Hint 1:} This is a relationship we have talked about in class. It may be helpful to approach this in two steps. First, find the mgf of
+\[
+W \;=\; \sum_{i=1}^n X_i.
+\]
+Then, let
+\[
+Y = \frac{2W}{\theta}.
+\]
+Write the mgf of $Y$ using the definition of mgfs, and then re-write it in terms of $M_W(t)$.
+
+\textit{Hint 2:} Below are the related mgfs. You are trying to show that your transformation will result in $M_Y(t)$.
+
+If $X \sim \mathrm{Exp}(\theta)$,
+\[
+M_X(t) = \frac{1}{1 - \theta t},
+\]
+
+If $Y \sim \chi^2_n$,
+\[
+M_Y(t) = (1 - 2t)^{-n/2}.
+\]
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+Suppose that $X_1, X_2, \dots, X_n$ are i.i.d.\ random variables from an exponential
+distribution with parameter $\theta$, written
+\[
+X_i \sim \mathrm{Exp}(\theta).
+\]
+The moment generating function (mgf) of a single exponential random variable is
+\[
+M_X(t) = \frac{1}{1 - \theta t}, \qquad t < \frac{1}{\theta}.
+\]
+
+Our goal is to show that the statistic
+\[
+Y \;=\; \frac{2}{\theta}\sum_{i=1}^n X_i
+\]
+is a \emph{pivotal quantity}, meaning that its distribution does not depend on the
+unknown parameter $\theta$. We will do this entirely through moment generating
+functions, step by step.
+
+\medskip
+\textit{Step 1: The mgf of the sum $W = \sum_{i=1}^n X_i$.}
+
+Because the $X_i$ are independent, the mgf of their sum is the product of their
+individual mgfs:
+\[
+M_W(t)
+= M_{X_1 + \cdots + X_n}(t)
+= \prod_{i=1}^n M_{X_i}(t)
+= \left( \frac{1}{1 - \theta t} \right)^n.
+\]
+Thus,
+\[
+M_W(t) = (1 - \theta t)^{-n}.
+\]
+
+\medskip
+\textit{Step 2: Define the transformed variable.}
+
+Let
+\[
+Y = \frac{2W}{\theta},
+\qquad \text{where} \quad W = \sum_{i=1}^n X_i.
+\]
+To find the mgf of $Y$, we begin from the definition:
+\[
+M_Y(t)
+= \mathbb{E}\!\left[e^{tY}\right]
+= \mathbb{E}\!\left[e^{t(2W/\theta)}\right]
+= \mathbb{E}\!\left[e^{(2t/\theta) W}\right].
+\]
+Notice that this expression is exactly the mgf of $W$ evaluated at
+$s = \frac{2t}{\theta}$:
+\[
+M_Y(t)
+= M_W\!\left(\frac{2t}{\theta}\right).
+\]
+
+\medskip
+\textit{Step 3: Substitute the mgf of $W$.}
+
+We now plug our expression for $M_W$ into the previous line:
+\[
+M_Y(t)
+= \left(1 - \theta \cdot \frac{2t}{\theta}\right)^{-n}
+= (1 - 2t)^{-n}.
+\]
+
+\medskip
+\textit{Step 4: Recognize the mgf.}
+
+A chi-square random variable with $\nu$ degrees of freedom has mgf
+\[
+M_{\chi^2_\nu}(t)
+= (1 - 2t)^{-\nu/2}.
+\]
+Comparing this with our expression
+\[
+M_Y(t) = (1 - 2t)^{-n},
+\]
+we match exponents:
+\[
+-n = -\frac{\nu}{2}
+\quad\Longrightarrow\quad
+\nu = 2n.
+\]
+Therefore,
+\[
+Y \sim \chi^2_{2n}.
+\]
+
+\medskip
+\textit{Conclusion: Why $Y$ is pivotal.}
+
+The distribution of $Y$ is
+\[
+Y = \frac{2}{\theta}\sum_{i=1}^n X_i \;\sim\; \chi^2_{2n}.
+\]
+Notice that the chi-square distribution depends \emph{only} on $n$ and not on
+the parameter $\theta$. Because its distribution is free of unknown parameters,
+$Y$ is a \textbf{pivotal quantity}.
+
+This result is fundamental to constructing confidence intervals for $\theta$ in
+the exponential model, because it provides a standard reference distribution
+that does not involve any unknown parameters.
+
+\[
+\boxed{Y = \frac{2}{\theta}\sum_{i=1}^n X_i \sim \chi^2_{2n} \text{ is a pivotal quantity.}}
+\]
+
+\newpage
+
+\textbf{Chapter 9: Confidence Intervals, Pivotal Quantities, and Sampling Distributions}
+
+\vspace{0.5cm}
+
+\subsection*{1. What Are We Doing in This Chapter?}
+
+In this chapter, we look at a very common question in statistics:
+
+\begin{center}
+\emph{``What can we say about the whole population, using only a small sample?''}
+\end{center}
+
+For example:
+\begin{itemize}
+    \item We might only see 7 test scores, but we want to say something about the \textbf{true average} test score $\mu$.
+    \item We might only see 5 brain weights, but we want to say something about the \textbf{true average} brain mass $\mu$ and the \textbf{true variability} $\sigma^2$.
+    \item We might only ask 500 Netflix subscribers, but we want to say something about the \textbf{true proportion} $p$ of binge-watchers.
+\end{itemize}
+
+We will use three big ideas:
+\begin{enumerate}
+    \item \textbf{Sample mean} and \textbf{sample variance}.
+    \item \textbf{Distributions} like the Normal, $t$-distribution, and Chi-square.
+    \item \textbf{Pivotal quantities} that lead to \textbf{confidence intervals}.
+\end{enumerate}
+
+All the tools you need for Questions 3.3.1--3.3.6 will appear here.
+
+\subsection*{2. Samples, Parameters, and Statistics}
+
+\begin{itemize}
+    \item A \textbf{population} is the big group we care about (all adults, all Netflix users, all electronic components, etc.).
+    \item A \textbf{parameter} is a number that describes the population, but we usually don't know it. Examples:
+    \[
+    \mu = \text{true mean}, \qquad \sigma^2 = \text{true variance}, \qquad p = \text{true proportion}.
+    \]
+    \item A \textbf{sample} is the smaller group we actually see.
+    \item A \textbf{statistic} is a number computed from the sample (it is our ``guess'' for the parameter).
+\end{itemize}
+
+Two key statistics:
+
+\begin{itemize}
+    \item \textbf{Sample mean} (average):
+    \[
+    \bar{x} = \frac{1}{n}\sum_{i=1}^n x_i.
+    \]
+    \item \textbf{Sample variance} (spread of the values):
+    \[
+    s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})^2.
+    \]
+\end{itemize}
+
+You will use these formulas directly in 3.3.1 and 3.3.2.
+
+\subsection*{3. The Idea of a Confidence Interval}
+
+A \textbf{confidence interval} (CI) is just a range of numbers that we believe (with some confidence level) contains the true parameter.
+
+\[
+\text{Confidence interval} = \text{estimate} \;\pm\; (\text{critical value}) \times (\text{standard error}).
+\]
+
+\begin{itemize}
+    \item The \textbf{estimate} is usually $\bar{x}$ (for $\mu$) or $s^2$ (for $\sigma^2$) or $\hat{p}$ (for $p$).
+    \item The \textbf{standard error} tells us how much our estimate tends to wiggle from sample to sample.
+    \item The \textbf{critical value} (like $z_{0.975}$, $t_{0.975,\,6}$, or $\chi^2_{0.95,\,6}$) comes from a known distribution.
+\end{itemize}
+
+The level like 80\%, 95\%, or 99\% tells us how confident we want to be.
+Higher confidence $\Rightarrow$ wider interval.
+
+\subsection*{4. Important Distributions Cheat Sheet}
+
+\subsubsection*{4.1 Normal (Gaussian) Distribution}
+
+We write
+\[
+X \sim N(\mu, \sigma^2)
+\]
+to mean that $X$ is normally distributed with mean $\mu$ and variance $\sigma^2$.
+
+A \textbf{standard normal} (or $Z$-distribution) is:
+\[
+Z \sim N(0, 1).
+\]
+
+\subsubsection*{4.2 $t$-Distribution}
+
+If we have:
+\[
+X_1, \dots, X_n \sim N(\mu, \sigma^2) \quad \text{(independent)},
+\]
+then the \textbf{sample mean} and \textbf{sample standard deviation} are:
+\[
+\bar{X} = \frac{1}{n}\sum X_i, \qquad s^2 = \frac{1}{n-1}\sum (X_i - \bar{X})^2.
+\]
+The quantity
+\[
+T = \frac{\bar{X} - \mu}{s / \sqrt{n}}
+\]
+follows a $t$-distribution with $n-1$ degrees of freedom:
+\[
+T \sim t_{n-1}.
+\]
+
+This is used to build confidence intervals for $\mu$ when $\sigma$ is \emph{unknown} (3.3.1 parts (c),(d), and 3.3.2).
+
+\subsubsection*{4.3 Chi-Square ($\chi^2$) Distribution}
+
+If $Z_1,\dots,Z_k$ are independent standard normal variables, then
+\[
+\chi^2 = Z_1^2 + \cdots + Z_k^2
+\]
+follows a \textbf{chi-square distribution} with $k$ degrees of freedom:
+\[
+\chi^2 \sim \chi^2_k.
+\]
+
+A very important fact for this chapter:
+
+If $X_1,\dots,X_n \sim N(\mu,\sigma^2)$, then
+\[
+\frac{(n-1)s^2}{\sigma^2} \sim \chi^2_{n-1}.
+\]
+
+This is how we build confidence intervals for $\sigma^2$ (3.3.1 parts (a),(b) and 3.3.2(c)), and also how we use $Y^2/\sigma^2$ as a pivotal quantity in 3.3.5.
+
+\subsection*{5. Confidence Intervals for the Mean $\mu$ (Normal Data)}
+
+\subsubsection*{5.1 When $\sigma$ is Known (like in 3.3.3)}
+
+If $X_1, \dots, X_n \sim N(\mu, \sigma^2)$ and $\sigma$ is known, then
+\[
+Z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \sim N(0,1).
+\]
+
+A two-sided $100(1-\alpha)\%$ CI for $\mu$ is:
+\[
+\bar{x} \;\pm\; z_{1-\alpha/2}\,\frac{\sigma}{\sqrt{n}}.
+\]
+
+Example: For a 80\% CI, $\alpha = 0.20$, so you use $z_{0.90}$.
+
+This is exactly what 3.3.3 asks you to do in R, when $\sigma = 3$ is known.
+
+\subsubsection*{5.2 When $\sigma$ is Unknown (like 3.3.1 and 3.3.2)}
+
+If $\sigma$ is unknown, we use $s$ instead, and:
+\[
+T = \frac{\bar{X} - \mu}{s/\sqrt{n}} \sim t_{n-1}.
+\]
+
+A two-sided $100(1-\alpha)\%$ CI for $\mu$ is:
+\[
+\bar{x} \;\pm\; t_{1-\alpha/2,\, n-1}\,\frac{s}{\sqrt{n}}.
+\]
+
+A one-sided lower bound for $\mu$ is:
+\[
+\mu > \bar{x} - t_{1-\alpha,\,n-1}\,\frac{s}{\sqrt{n}}.
+\]
+
+A one-sided upper bound for $\mu$ is:
+\[
+\mu < \bar{x} + t_{1-\alpha,\,n-1}\,\frac{s}{\sqrt{n}}.
+\]
+
+These formulas are exactly what you need for:
+\begin{itemize}
+    \item 3.3.1(c): 96\% two-sided CI for $\mu$,
+    \item 3.3.1(d): 94\% one-sided lower CI for $\mu$,
+    \item 3.3.2(b): 95\% two-sided CI for $\mu$.
+\end{itemize}
+
+\subsection*{6. Confidence Intervals for the Variance $\sigma^2$ (Normal Data)}
+
+Recall:
+\[
+\frac{(n-1)s^2}{\sigma^2} \sim \chi^2_{n-1}.
+\]
+
+\subsubsection*{6.1 Two-Sided CI for $\sigma^2$}
+
+A $100(1-\alpha)\%$ CI for $\sigma^2$ is:
+\[
+\frac{(n-1)s^2}{\chi^2_{1-\alpha/2,\, n-1}}
+\;\le\; \sigma^2 \;\le\;
+\frac{(n-1)s^2}{\chi^2_{\alpha/2,\, n-1}}.
+\]
+
+This is used in:
+\begin{itemize}
+    \item 3.3.1(a): 80\% CI for variance,
+    \item 3.3.2(c): 95\% CI for variance (by hand).
+\end{itemize}
+
+\subsubsection*{6.2 One-Sided Upper CI for $\sigma^2$}
+
+A $100(1-\alpha)\%$ \textbf{upper} confidence bound for $\sigma^2$ is:
+\[
+\sigma^2 < \frac{(n-1)s^2}{\chi^2_{\alpha,\, n-1}}.
+\]
+
+This is used in 3.3.1(b): 80\% one-sided upper CI for $\sigma^2$.
+
+\subsection*{7. Proportions and the Central Limit Theorem (3.3.4)}
+
+Suppose we have $n$ independent trials, each one is either:
+\begin{itemize}
+    \item 1 (success), or
+    \item 0 (failure).
+\end{itemize}
+
+We write:
+\[
+X_i \sim \text{Bernoulli}(p),
+\]
+where $p$ is the true probability of success. The \textbf{sample proportion} is:
+\[
+\hat{p} = \frac{1}{n}\sum_{i=1}^n X_i.
+\]
+
+For large $n$, the Central Limit Theorem (CLT) says:
+\[
+\hat{p} \approx N\left(p,\; \frac{p(1-p)}{n}\right).
+\]
+
+So approximately,
+\[
+Z = \frac{\hat{p} - p}{\sqrt{p(1-p)/n}} \approx N(0,1).
+\]
+
+This $Z$ is the \textbf{pivotal quantity} for 3.3.4.
+You can then solve for $p$ to build a confidence interval or just identify the distribution of the pivot.
+
+\subsection*{8. Pivotal Quantities (3.3.4 and 3.3.5)}
+
+A \textbf{pivotal quantity} (or pivot) is a function of the data and the unknown parameter whose distribution does \emph{not} depend on that parameter.
+
+Examples:
+\begin{itemize}
+    \item For known $\sigma$:
+    \[
+    Z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \sim N(0,1).
+    \]
+    \item For unknown $\sigma$:
+    \[
+    T = \frac{\bar{X} - \mu}{s/\sqrt{n}} \sim t_{n-1}.
+    \]
+    \item For variance:
+    \[
+    \frac{(n-1)s^2}{\sigma^2} \sim \chi^2_{n-1}.
+    \]
+    \item In 3.3.5, if $Y \sim N(0,\sigma^2)$, then
+    \[
+    U = \frac{Y^2}{\sigma^2} \sim \chi^2_1.
+    \]
+\end{itemize}
+
+Because the distributions of these pivots do not depend on $\mu$, $\sigma^2$, or $p$, we can use them to build confidence intervals.
+
+\subsection*{9. Rayleigh Distribution and Change of Variables (3.3.6)}
+
+In 3.3.6, we meet the \textbf{Rayleigh distribution}, with pdf
+\[
+f_X(x) = \frac{2x}{\theta} e^{-x^2/\theta}, \qquad x > 0.
+\]
+
+You define a new variable
+\[
+U = X^2.
+\]
+
+To find the pdf of $U$, we use the \textbf{change of variables} formula.
+For $u>0$:
+\[
+x = \sqrt{u},\quad \frac{dx}{du} = \frac{1}{2\sqrt{u}}.
+\]
+
+Then
+\[
+f_U(u) = f_X(\sqrt{u}) \cdot \left|\frac{dx}{du}\right|.
+\]
+
+Once you know $f_U(u)$, you can find $E[X]$ by writing $X = \sqrt{U}$ and using
+\[
+E[X] = E[\sqrt{U}] = \int_0^\infty \sqrt{u}\, f_U(u)\,du.
+\]
+
+Here the \textbf{Gamma function} is useful:
+\[
+\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}\,dt,
+\]
+and it satisfies
+\[
+\Gamma(\alpha+1) = \alpha \Gamma(\alpha), \qquad \Gamma\left(\frac{1}{2}\right) = \sqrt{\pi}.
+\]
+
+These facts are enough to solve 3.3.6.
+
+\bigskip
+
+\noindent
+\textbf{Summary:}
+With the formulas and ideas in this introduction, you can:
+\begin{itemize}
+    \item Compute sample mean and variance,
+    \item Build confidence intervals for $\mu$ and $\sigma^2$ using $t$ and $\chi^2$,
+    \item Use the CLT for proportions,
+    \item Use pivotal quantities for $\mu$, $\sigma^2$, and $p$,
+    \item Handle the change-of-variables step needed for the Rayleigh distribution.
+\end{itemize}
+Now you are ready to tackle 3.3.1--3.3.6.
+
+\newpage
+
+\subsection*{\textbf{\textit{Question 3.3.1}}}
+
+Suppose the following is a random sample from a normal distribution:
+
+\[
+\{16, 12, 18, 13, 21, 15, 19\}.
+\]
+
+\begin{enumerate}
+    \item[(a)] Construct a 80\% two-sided confidence interval for the variance $\sigma^2$.
+    \item[(b)] Construct a 80\% one-sided upper confidence interval for the variance $\sigma^2$.
+    \item[(c)] Construct a 96\% two-sided confidence interval for the mean $\mu$.
+    \item[(d)] Construct a 94\% one-sided lower confidence interval for the mean $\mu$.
+\end{enumerate}
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+We are given the data:
+\[
+16,\; 12,\; 18,\; 13,\; 21,\; 15,\; 19.
+\]
+There are $n=7$ numbers. We will need two things:
+\begin{itemize}
+    \item the \textbf{sample mean} (the average),
+    \item the \textbf{sample variance} (how spread out the numbers are).
+\end{itemize}
+
+\medskip
+\textit{Step 1: Find the Sample Mean.}
+
+To get the average, we add the numbers and divide by 7:
+
+\[
+16 + 12 + 18 + 13 + 21 + 15 + 19 = 114.
+\]
+
+\[
+\bar{x} = \frac{114}{7} = 16.2857.
+\]
+
+So the average of the data is roughly $16.29$.
+
+\medskip
+\textit{Step 2: Find the Sample Variance.}
+
+Variance tells us how much the numbers wiggle around the average.
+
+We subtract the average from each number and square the result:
+
+\[
+\begin{aligned}
+(16-16.2857)^2 &= 0.0816, \\
+(12-16.2857)^2 &= 18.3673, \\
+(18-16.2857)^2 &= 2.9388, \\
+(13-16.2857)^2 &= 10.7857, \\
+(21-16.2857)^2 &= 22.2449, \\
+(15-16.2857)^2 &= 1.6531, \\
+(19-16.2857)^2 &= 7.3673.
+\end{aligned}
+\]
+
+Add these up:
+\[
+\sum_{i=1}^7 (x_i - \bar{x})^2 = 63.4387.
+\]
+
+To get the sample variance we divide by $n-1 = 6$:
+\[
+s^2 = \frac{63.4387}{6} = 10.5731.
+\]
+
+\bigskip
+
+Now we can build confidence intervals.
+
+\medskip
+(a) \textbf{80\% Two-Sided Confidence Interval for $\sigma^2$}
+
+For data from a normal distribution:
+\[
+\frac{(n-1)s^2}{\chi^2_{1-\alpha/2,\, n-1}}
+\le \sigma^2 \le
+\frac{(n-1)s^2}{\chi^2_{\alpha/2,\, n-1}}.
+\]
+
+Here $\alpha = 0.20$, so $\alpha/2 = 0.10$.
+
+We need chi-square values for 6 degrees of freedom:
+\[
+\chi^2_{0.90,6} = 10.645, \qquad
+\chi^2_{0.10,6} = 1.635.
+\]
+
+Compute the bounds:
+
+\[
+\text{Lower} = \frac{6(10.5731)}{10.645} = 5.96,
+\qquad
+\text{Upper} = \frac{6(10.5731)}{1.635} = 38.79.
+\]
+
+So the interval is:
+\[
+\boxed{(5.96,\; 38.79)}.
+\]
+
+\textit{Meaning: We are 80\% confident the true variance is somewhere between about 6 and 39.}
+
+\medskip
+(b) \textbf{80\% One-Sided Upper Interval for $\sigma^2$}
+
+This time we only want an \emph{upper} bound.
+
+Formula:
+\[
+\sigma^2 < \frac{(n-1)s^2}{\chi^2_{\alpha,\, n-1}}.
+\]
+
+Here $\alpha = 0.20$.
+
+\[
+\chi^2_{0.20,6} = 3.455.
+\]
+
+Upper bound:
+\[
+\frac{6(10.5731)}{3.455} = 18.36.
+\]
+
+So:
+\[
+\boxed{\sigma^2 < 18.36}.
+\]
+
+\textit{Meaning: We are 80\% confident the variance is less than 18.36.}
+
+\medskip
+(c) \textbf{96\% Two-Sided Confidence Interval for the Mean $\mu$}
+
+To estimate a mean from a normal sample, we use the $t$-distribution:
+
+\[
+\bar{x} \pm t_{1-\alpha/2,\, n-1}\frac{s}{\sqrt{n}}.
+\]
+
+Here $\alpha = 0.04$, so $1-\alpha/2 = 0.98$.
+
+\[
+t_{0.98,6} = 2.447.
+\]
+
+Compute the standard error:
+\[
+\frac{s}{\sqrt{7}} = \frac{3.2524}{2.6458} = 1.2287.
+\]
+
+Margin of error:
+\[
+2.447(1.2287) = 3.00.
+\]
+
+Thus:
+\[
+(16.2857 - 3.00,\; 16.2857 + 3.00)
+= (13.29,\; 19.29).
+\]
+
+\[
+\boxed{(13.29,\; 19.29)}.
+\]
+
+\textit{Meaning: We are 96\% confident the true average is between about 13.3 and 19.3.}
+
+\medskip
+(d) \textbf{94\% One-Sided Lower CI for $\mu$}
+
+Formula for a lower bound:
+\[
+\mu > \bar{x} - t_{1-\alpha,\, n-1}\frac{s}{\sqrt{n}}.
+\]
+
+Here $\alpha = 0.06$, so $1-\alpha = 0.94$.
+
+\[
+t_{0.94,6} = 1.553.
+\]
+
+Compute:
+\[
+1.553(1.2287) = 1.91.
+\]
+
+So:
+\[
+\boxed{\mu > 16.2857 - 1.91 = 14.38}.
+\]
+
+\textit{Meaning: We are 94\% confident that the true average is bigger than 14.38.}
+
+\newpage
+
+\subsection*{\textbf{\textit{Question 3.3.2}}}
+
+Sylar wants to estimate the true average adult brain mass, $\mu$, but he is locked in a cell with no internet
+and only has a scale. He collects a small random sample of size $n = 5$ from nearby prison guards.
+He finds that these brains have the following weights (in grams):
+
+\[
+1320,\quad 1400,\quad 1300,\quad 1460,\quad 1450.
+\]
+
+Assume that adult brain masses follow a normal distribution.
+
+\begin{enumerate}
+    \item[(a)] Compute the sample mean $\bar{x}$ and the sample standard deviation $s$.
+    \item[(b)] Construct a two-sided 95\% confidence interval for the true mean brain mass $\mu$.
+    \item[(c)] Construct a two-sided 95\% confidence interval for the true variance $\sigma^2$ (by hand).
+    Is this confidence interval symmetric around the point estimator $s^2$?
+\end{enumerate}
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+In this problem, Sylar has a tiny data set of $n = 5$ brain masses (in grams):
+\[
+1320,\; 1400,\; 1300,\; 1460,\; 1450.
+\]
+We will go step by step, like we are teaching someone who has just learned averages and squares.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{(a) Sample Mean $\bar{x}$ and Sample Standard Deviation $s$}
+
+\paragraph{Step 1: Compute the sample mean $\bar{x}$.}
+
+To find the average (mean), we add all the values and divide by how many there are:
+\[
+\bar{x} = \frac{1320 + 1400 + 1300 + 1460 + 1450}{5}.
+\]
+
+First add them:
+\[
+1320 + 1400 + 1300 + 1460 + 1450 = 6930.
+\]
+
+Now divide by $5$:
+\[
+\bar{x} = \frac{6930}{5} = 1386.
+\]
+
+So the sample mean is
+\[
+\boxed{\bar{x} = 1386 \text{ grams}.}
+\]
+
+\paragraph{Step 2: Compute the sample variance $s^2$.}
+
+The sample variance measures how spread out the data are around the mean.
+The formula is
+\[
+s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})^2.
+\]
+
+Here $n = 5$, so $n-1 = 4$.
+
+First compute each deviation from the mean and square it:
+
+\[
+\begin{aligned}
+x_1 &= 1320, & x_1 - \bar{x} &= 1320 - 1386 = -66, & (x_1 - \bar{x})^2 &= 4356, \\
+x_2 &= 1400, & x_2 - \bar{x} &= 1400 - 1386 = 14, & (x_2 - \bar{x})^2 &= 196, \\
+x_3 &= 1300, & x_3 - \bar{x} &= 1300 - 1386 = -86, & (x_3 - \bar{x})^2 &= 7396, \\
+x_4 &= 1460, & x_4 - \bar{x} &= 1460 - 1386 = 74, & (x_4 - \bar{x})^2 &= 5476, \\
+x_5 &= 1450, & x_5 - \bar{x} &= 1450 - 1386 = 64, & (x_5 - \bar{x})^2 &= 4096.
+\end{aligned}
+\]
+
+Now add up the squared deviations:
+\[
+4356 + 196 + 7396 + 5476 + 4096 = 21520.
+\]
+
+Now divide by $n-1 = 4$:
+\[
+s^2 = \frac{21520}{4} = 5380.
+\]
+
+So the sample variance is
+\[
+\boxed{s^2 = 5380 \text{ (grams}^2\text{)}.}
+\]
+
+The sample standard deviation $s$ is the square root of the variance:
+\[
+s = \sqrt{5380} \approx 73.35 \text{ grams.}
+\]
+
+So
+\[
+\boxed{s \approx 73.35 \text{ grams.}}
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{(b) 95\% Two-Sided Confidence Interval for $\mu$}
+
+We assume the brain masses come from a normal distribution, but we do \emph{not} know the true $\sigma$.
+That means we use the \textbf{$t$-distribution} with $n-1$ degrees of freedom.
+
+\paragraph{Step 1: Set up the formula.}
+
+For a two-sided $100(1-\alpha)\%$ confidence interval for $\mu$ with unknown $\sigma$, we use:
+\[
+\bar{x} \;\pm\; t_{1 - \alpha/2,\; n-1} \,\frac{s}{\sqrt{n}}.
+\]
+
+Here,
+\[
+n = 5,\quad \alpha = 0.05,\quad n-1 = 4.
+\]
+
+For a 95\% CI, $\alpha = 0.05$, so
+\[
+1 - \alpha/2 = 1 - 0.025 = 0.975.
+\]
+We look up in a $t$-table:
+\[
+t_{0.975,\,4} \approx 2.776.
+\]
+
+\paragraph{Step 2: Compute the standard error.}
+
+The standard error of the mean is
+\[
+\text{SE} = \frac{s}{\sqrt{n}} = \frac{73.35}{\sqrt{5}}.
+\]
+
+Compute:
+\[
+\sqrt{5} \approx 2.236, \quad
+\text{SE} \approx \frac{73.35}{2.236} \approx 32.80.
+\]
+
+\paragraph{Step 3: Compute the margin of error.}
+
+\[
+\text{Margin of error} = t_{0.975,4} \times \text{SE}
+\approx 2.776 \times 32.80 \approx 91.1.
+\]
+
+\paragraph{Step 4: Build the interval.}
+
+The confidence interval is
+\[
+\bar{x} \pm \text{margin of error}
+= 1386 \pm 91.1.
+\]
+
+So:
+\[
+\text{Lower bound} \approx 1386 - 91.1 = 1294.9,
+\]
+\[
+\text{Upper bound} \approx 1386 + 91.1 = 1477.1.
+\]
+
+We can round to one decimal place:
+\[
+\boxed{\mu \in (1294.9,\; 1477.1)\ \text{grams (approximately).}}
+\]
+
+In words: based on this tiny sample, we are 95\% confident the true average adult brain mass
+is between about 1295 grams and 1477 grams.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{(c) 95\% Two-Sided Confidence Interval for $\sigma^2$}
+
+Now we want a confidence interval for the \textbf{true variance} $\sigma^2$.
+
+Because the data are normal, we know the important fact:
+\[
+\frac{(n-1)s^2}{\sigma^2} \sim \chi^2_{n-1},
+\]
+which means this ratio follows a chi-square distribution with $n-1$ degrees of freedom.
+
+\paragraph{Step 1: Set up the formula.}
+
+A two-sided $100(1-\alpha)\%$ confidence interval for $\sigma^2$ is:
+\[
+\frac{(n-1)s^2}{\chi^2_{1-\alpha/2,\; n-1}}
+\;\le\; \sigma^2 \;\le\;
+\frac{(n-1)s^2}{\chi^2_{\alpha/2,\; n-1}}.
+\]
+
+Here again, $n=5$, so $n-1 = 4$, and $\alpha = 0.05$.
+
+We need the chi-square critical values:
+\[
+\chi^2_{0.975,\,4} \approx 0.484, \qquad
+\chi^2_{0.025,\,4} \approx 11.143.
+\]
+
+\paragraph{Step 2: Plug in the numbers.}
+
+Recall $s^2 = 5380$ and $(n-1)s^2 = 4 \times 5380 = 21520$.
+
+\[
+\text{Lower bound} =
+\frac{(n-1)s^2}{\chi^2_{0.975,4}}
+= \frac{21520}{0.484}
+\approx 44462.8,
+\]
+
+\[
+\text{Upper bound} =
+\frac{(n-1)s^2}{\chi^2_{0.025,4}}
+= \frac{21520}{11.143}
+\approx 1931.3.
+\]
+
+Be careful: since $\chi^2_{0.975,4}$ is the \emph{smaller} value and is in the denominator, it produces the \emph{larger} bound in the variance scale. So we must order them correctly:
+
+\[
+\text{Lower bound} \approx 1931.3, \qquad
+\text{Upper bound} \approx 44462.8.
+\]
+
+So the 95\% CI for $\sigma^2$ is approximately
+\[
+\boxed{\sigma^2 \in (1931.3,\; 44462.8)\ \text{grams}^2.}
+\]
+
+\paragraph{Step 3: Is this interval symmetric around $s^2$?}
+
+Our point estimate for the variance is
+\[
+s^2 = 5380.
+\]
+
+If the interval were symmetric around $s^2$, then the distance from $s^2$ to the lower bound and to the upper bound would be the same. But look:
+
+\[
+5380 - 1931.3 \approx 3448.7,
+\]
+\[
+44462.8 - 5380 \approx 39082.8.
+\]
+
+These are \emph{very} different. The upper side sticks out much farther than the lower side.
+
+This happens because the chi-square distribution is \textbf{skewed} (not symmetric). When we transform from the chi-square scale to the $\sigma^2$ scale, we get an interval that is not symmetric around $s^2$.
+
+So the answer is:
+
+\[
+\boxed{\text{No, the confidence interval for }\sigma^2 \text{ is not symmetric around } s^2.}
+\]
+
+\newpage
+
+\subsection*{\textbf{\textit{Question 3.3.3}}}
+
+In this exercise, we are going to look at the coverage of confidence intervals for a given $\mu$.
+Suppose $\sigma = 3$ is known.
+
+\begin{enumerate}
+    \item[(a)] Using R, generate a random sample of size $n = 10$ from
+    $X_1, X_2, \ldots, X_{10} \sim N(20, 3^2)$. Construct an 80\% confidence interval.
+    Does your confidence interval successfully capture the true value $\mu = 20$? (Answers will vary.)
+
+    \item[(b)] Repeat part (a) to generate 20{,}000 confidence intervals.
+    What proportion of your 20{,}000 confidence intervals correctly captured $\mu$?
+    Must include both your code and output for credit.
+\end{enumerate}
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+\subsubsection*{(a) Single 80\% CI}
+
+\begin{verbatim}
+# Part (a)
+set.seed(1)
+n <- 10
+sigma <- 3
+mu <- 20
+alpha <- 0.20
+
+x <- rnorm(n, mean = mu, sd = sigma)
+
+xbar <- mean(x)
+z <- qnorm(1 - alpha/2)
+
+lower <- xbar - z * sigma / sqrt(n)
+upper <- xbar + z * sigma / sqrt(n)
+c(lower, upper)
+\end{verbatim}
+
+\textbf{R Output:}
+
+\begin{verbatim}
+[1] 18.55278 22.45057
+\end{verbatim}
+
+Since $20 \in [18.55278,\; 22.45057]$, the interval \emph{does} capture the true mean.
+
+\medskip
+
+\subsubsection*{(b) Simulation of 20,000 CIs}
+
+\begin{verbatim}
+# Part (b)
+set.seed(1)
+Nsim <- 20000
+count <- 0
+
+for (i in 1:Nsim) {
+  x <- rnorm(n, mean = mu, sd = sigma)
+  xbar <- mean(x)
+  lower <- xbar - z * sigma / sqrt(n)
+  upper <- xbar + z * sigma / sqrt(n)
+  if (lower <= mu && mu <= upper) {
+    count <- count + 1
+  }
+}
+
+prop <- count / Nsim
+prop
+\end{verbatim}
+
+\textbf{R Output:}
+
+\begin{verbatim}
+[1] 0.79955
+\end{verbatim}
+
+\textbf{Conclusion:}
+The empirical coverage of the 80\% confidence interval was approximately $0.79955$,
+which is extremely close to the theoretical value of $0.80$.
+
+\newpage
+
+\subsection*{\textbf{\textit{Question 3.3.4}}}
+
+In a survey conducted among 500 Netflix subscribers, 380 reported that they binge-watch at least one
+series every weekend. We want to estimate the proportion of Netflix subscribers who binge-watch series on
+weekends with a 99\% confidence interval.
+
+Consider that each subscriber $X_i$ represents the outcome of a Bernoulli distribution with parameter $p$,
+where $p$ is the probability that any single person binge-watches every weekend (success):
+\[
+X_i \sim \text{Bernoulli}(p), \quad i = 1,2,\dots,n.
+\]
+
+Consider that the sample proportion,
+\[
+\hat{p} = \frac{1}{n} \sum_{i=1}^n X_i.
+\]
+Construct a pivotal quantity for the true proportion $p$ based on $\hat{p}$, and identify the distribution of your pivot to confirm that it is appropriate. (You may use the fact that $n$ is large to use an approximation.)
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+We are given:
+\[
+n = 500, \quad \sum_{i=1}^{500} X_i = 380 \quad \Rightarrow \quad \hat{p} = \frac{380}{500} = 0.76.
+\]
+
+Each $X_i \sim \text{Bernoulli}(p)$, so
+\[
+\mathbb{E}[X_i] = p, \qquad \mathrm{Var}(X_i) = p(1-p).
+\]
+
+Because $\hat{p}$ is the sample mean of i.i.d.\ Bernoulli random variables,
+\[
+\hat{p} = \frac{1}{n} \sum_{i=1}^n X_i,
+\]
+we have
+\[
+\mathbb{E}[\hat{p}] = p,
+\qquad
+\mathrm{Var}(\hat{p}) = \frac{p(1-p)}{n}.
+\]
+
+By the Central Limit Theorem (CLT), when $n$ is large,
+\[
+\frac{\hat{p} - p}{\sqrt{p(1-p)/n}} \;\xrightarrow[]{\ \mathcal{D}\ }\; N(0,1).
+\]
+
+Thus, an \emph{(approximate) pivotal quantity} for $p$ based on $\hat{p}$ is
+\[
+\boxed{Z = \frac{\hat{p} - p}{\sqrt{\dfrac{p(1-p)}{n}}}.}
+\]
+
+This quantity has (approximately) a standard normal distribution for large $n$:
+\[
+\boxed{Z \approx N(0,1).}
+\]
+
+In practice, $p$ is unknown, so we replace $p$ by $\hat{p}$ in the standard error, giving the usual large-sample pivot:
+\[
+Z \approx \frac{\hat{p} - p}{\sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}}} \sim \text{approximately } N(0,1).
+\]
+
+Since $n = 500$ is large, this normal approximation is appropriate, and this $Z$ can be used to construct the 99\% confidence interval for $p$:
+\[
+\hat{p} \pm z_{0.005} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}},
+\]
+where $z_{0.005} \approx 2.576$ is the 99\% standard normal critical value.
+
+Plugging in the numbers:
+\[
+\hat{p} = 0.76, \quad n = 500,
+\]
+\[
+\hat{p} \pm 2.576 \sqrt{\frac{0.76(1-0.76)}{500}}
+\approx 0.76 \pm 2.576 \cdot 0.0191
+\approx 0.76 \pm 0.0492,
+\]
+so the approximate 99\% confidence interval is
+\[
+\boxed{(0.7108,\ 0.8092).}
+\]
+
+\newpage
+
+\subsection*{\textbf{\textit{Question 3.3.6}}}
+
+The Rayleigh distribution is sometimes used to model the length of the life of electronic components. It has
+pdf:
+\[
+f(x) = \frac{2x}{\theta} \exp\left(-\frac{x^2}{\theta}\right), \quad x > 0.
+\]
+
+\begin{enumerate}
+    \item[(a)] Find the pdf of $U = X^2$.
+    \item[(b)] Use the pdf from part (a) to find $E[X]$.
+\end{enumerate}
+
+\noindent\textbf{Hints:}
+\begin{itemize}
+    \item Hint 1: $X^2 = U$, so $E[X] = E[\sqrt{U}]$.
+    \item Hint 2: The Gamma function $\Gamma(\alpha + 1) = \alpha \Gamma(\alpha)$.
+    \item Hint 3: $\Gamma(z) = \displaystyle \int_0^\infty t^{z-1} e^{-t}\,dt$.
+    \item Hint 4: $\Gamma\left(\tfrac{1}{2}\right) = \sqrt{\pi}$.
+\end{itemize}
+
+\vspace{1cm}
+
+\textbf{Solution:}
+
+\subsubsection*{(a) Find the pdf of $U = X^2$}
+
+We are given
+\[
+f_X(x) = \frac{2x}{\theta} e^{-x^2/\theta}, \quad x > 0.
+\]
+
+Define
+\[
+U = X^2.
+\]
+Since $X > 0$, we have $U > 0$ and the transformation is one-to-one on $(0,\infty)$.
+
+We have
+\[
+u = x^2 \quad \Longrightarrow \quad x = \sqrt{u}, \quad u > 0.
+\]
+Then
+\[
+\frac{dx}{du} = \frac{1}{2\sqrt{u}}, \quad \left|\frac{dx}{du}\right| = \frac{1}{2\sqrt{u}}.
+\]
+
+Using the change-of-variable formula for pdfs:
+\[
+f_U(u) = f_X(x) \left|\frac{dx}{du}\right| \bigg|_{x = \sqrt{u}}.
+\]
+
+So
+\[
+f_U(u)
+= f_X(\sqrt{u}) \cdot \frac{1}{2\sqrt{u}}
+= \frac{2\sqrt{u}}{\theta} e^{-(\sqrt{u})^2/\theta} \cdot \frac{1}{2\sqrt{u}}
+= \frac{1}{\theta} e^{-u/\theta}, \quad u > 0.
+\]
+
+Thus,
+\[
+\boxed{
+f_U(u) = \frac{1}{\theta} e^{-u/\theta}, \quad u > 0,
+}
+\]
+which is the pdf of an \emph{Exponential} random variable with mean $\theta$ (rate $1/\theta$).
+
+\medskip
+
+\subsubsection*{(b) Use the pdf of $U$ to find $E[X]$}
+
+From part (a), we know that
+\[
+U = X^2 \sim \text{Exponential with pdf } f_U(u) = \frac{1}{\theta} e^{-u/\theta}, \quad u > 0.
+\]
+
+We want
+\[
+E[X] = E[\sqrt{U}].
+\]
+
+By definition,
+\[
+E[\sqrt{U}] = \int_0^\infty \sqrt{u} \, f_U(u)\,du
+= \int_0^\infty \sqrt{u} \cdot \frac{1}{\theta} e^{-u/\theta}\,du.
+\]
+
+So
+\[
+E[X]
+= \frac{1}{\theta} \int_0^\infty u^{1/2} e^{-u/\theta} \, du.
+\]
+
+Make the substitution
+\[
+t = \frac{u}{\theta} \quad \Longrightarrow \quad u = \theta t, \quad du = \theta\, dt.
+\]
+
+Then
+\[
+E[X]
+= \frac{1}{\theta} \int_0^\infty (\theta t)^{1/2} e^{-t} \, \theta\, dt
+= \frac{1}{\theta} \cdot \theta^{1/2} \cdot \theta \int_0^\infty t^{1/2} e^{-t} \, dt
+= \theta^{1/2} \int_0^\infty t^{1/2} e^{-t} \, dt.
+\]
+
+Recognize the Gamma function:
+\[
+\Gamma(z) = \int_0^\infty t^{z-1} e^{-t}\,dt.
+\]
+
+Here we have $t^{1/2} = t^{(3/2)-1}$, so
+\[
+\int_0^\infty t^{1/2} e^{-t} \, dt = \Gamma\left(\frac{3}{2}\right).
+\]
+
+Thus,
+\[
+E[X] = \sqrt{\theta} \, \Gamma\left(\frac{3}{2}\right).
+\]
+
+Using the recursion formula $\Gamma(\alpha + 1) = \alpha \Gamma(\alpha)$ with $\alpha = \tfrac{1}{2}$:
+\[
+\Gamma\left(\frac{3}{2}\right)
+= \frac{1}{2} \Gamma\left(\frac{1}{2}\right).
+\]
+
+And we are given
+\[
+\Gamma\left(\frac{1}{2}\right) = \sqrt{\pi}.
+\]
+
+So
+\[
+\Gamma\left(\frac{3}{2}\right) = \frac{1}{2} \sqrt{\pi}.
+\]
+
+Therefore,
+\[
+E[X] = \sqrt{\theta} \cdot \frac{1}{2} \sqrt{\pi}
+= \frac{\sqrt{\pi \theta}}{2}.
+\]
+
+\noindent\textbf{Final answer:}
+\[
+\boxed{
+E[X] = \frac{\sqrt{\pi \theta}}{2}.
+}
+\]
+
+\newpage
+
+%===========================================
+% FORMULA SHEETS TITLE PAGE
+%===========================================
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+{\fontsize{60}{72}\selectfont \textbf{Formula Sheets}}
+\end{center}
+\vspace*{\fill}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%  PART 1 FORMULA SHEET  %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Part 1 Formula Sheet}
+
+\textbf{Relation between A and $A^c$}
+\[
+P[A] = 1 - P[A^c] \tag{1}
+\]
+
+\textbf{Union Rule}
+\[
+P[A \cup B] = P[A] + P[B] - P[A \cap B] \tag{2}
+\]
+
+\textbf{Conditional Probability}
+\[
+P[A|B] = \frac{P[A \cap B]}{P[B]} \tag{3}
+\]
+
+\textbf{Multiplication Rule}
+\[
+P[A \cap B] = P[A]P[B|A] \tag{4a}
+\]
+\[
+P[A \cap B] = P[B]P[A|B] \tag{4b}
+\]
+
+\textbf{Permutations and Combinations}
+\[
+{}_nP_r = \frac{n!}{(n-r)!} \tag{5a}
+\]
+With replacement:
+\[
+n^r \tag{5b}
+\]
+With repetition:
+\[
+\frac{n!}{n_1!n_2!\cdots n_k!} \tag{5c}
+\]
+Combinations:
+\[
+{}_nC_r = \binom{n}{r} = \frac{n!}{r!(n-r)!} \tag{5d}
+\]
+
+\textbf{Independence}
+\[
+A \perp B \quad \text{iff} \quad P[A \cap B] = P[A]P[B] \tag{6}
+\]
+
+\textbf{Law of Total Probability}
+Let $B_1, \dots, B_m$ be a partition.
+\[
+P[A] = \sum_{i=1}^m P[B_i \cap A] \tag{7a}
+\]
+\[
+P[A] = \sum_{i=1}^m P[B_i]P[A|B_i] \tag{7b}
+\]
+
+\textbf{Expected Value}
+\[
+E[X] = \sum_x x f(x) \tag{8a}
+\]
+\[
+E[g(X)] = \sum_x g(x)f(x) \tag{8b}
+\]
+
+\textbf{Variance}
+\[
+\mathrm{Var}(X) = E[(X-\mu)^2] \tag{9b}
+\]
+\[
+\mathrm{Var}(X) = E[X^2] - (E[X])^2 \tag{9c}
+\]
+
+\textbf{Linear Transformations}
+\[
+E[c] = c \tag{10a}
+\]
+\[
+E[cX] = cE[X] \tag{10b}
+\]
+\[
+E[aX+b] = aE[X] + b \tag{10c}
+\]
+\[
+E[c_1g_1(X) + c_2g_2(X)] = c_1E[g_1(X)] + c_2E[g_2(X)] \tag{10d}
+\]
+\[
+\mathrm{Var}(aX+b) = a^2 \mathrm{Var}(X) \tag{10e}
+\]
+
+\textbf{Infinite Geometric Series}
+\[
+\text{Sum} = \frac{\text{first}}{1 - \text{ratio}} \quad (|r| < 1) \tag{11}
+\]
+
+\textbf{Exponential Series}
+\[
+e^x = \sum_{k=0}^\infty \frac{x^k}{k!} \tag{12}
+\]
+
+\textbf{Arithmetico-Geometric Series}
+\[
+\sum_{k=1}^\infty k r^k = \frac{r}{(1-r)^2}, \quad 0<r<1 \tag{13}
+\]
+
+\textbf{Random Variables}
+PMF:
+\[
+f(x)=P[X=x] \tag{14a}
+\]
+\[
+0 \le f(x)\le 1, \quad \sum_x f(x)=1 \tag{14b, 14c}
+\]
+CDF:
+\[
+F(x)=P[X\le x] \tag{14d}
+\]
+
+\textbf{Common PMFs}
+Binomial:
+\[
+f(x)=\binom{n}{x}p^x(1-p)^{n-x}
+\]
+Geometric:
+\[
+f(x)=(1-p)^{x-1}p
+\]
+Hypergeometric:
+\[
+f(x)=\frac{\binom{r}{x}\binom{N-r}{n-x}}{\binom{N}{n}}
+\]
+Negative Binomial:
+\[
+f(x)=\binom{x-1}{r-1}p^r(1-p)^{x-r}
+\]
+Poisson:
+\[
+f(x)=\frac{\lambda^x e^{-\lambda}}{x!}
+\]
+
+\textbf{R Functions}
+\begin{itemize}
+\item dbinom, pbinom, qbinom
+\item dgeom, pgeom, qgeom
+\item dnbinom, pnbinom, qnbinom
+\item dpois, ppois, qpois
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%  PART 2 FORMULA SHEET  %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Part 2 Formula Sheet}
+
+\textbf{Expected Value}
+\[
+E[g(X)] = \sum_x g(x)f(x) \tag{1a}
+\]
+\[
+E[g(X)] = \int g(x) f(x)\, dx \tag{1b}
+\]
+
+\textbf{Linear Expectation}
+\[
+E[c]=c, \quad E[aX+b]=aE[X]+b \tag{2}
+\]
+
+\textbf{Variance}
+\[
+\mathrm{Var}(X)=E[(X-\mu)^2]=E[X^2]-(E[X])^2 \tag{3}
+\]
+
+\textbf{Linear Variance}
+\[
+\mathrm{Var}(aX+b)=a^2\mathrm{Var}(X) \tag{4}
+\]
+
+\textbf{MGF}
+\[
+M_X(t)=E[e^{tX}] \tag{5a}
+\]
+\[
+M_X'(0)=E[X], \qquad M_X^{(k)}(0)=E[X^k] \tag{5b, 5c}
+\]
+\[
+M_{X_1+X_2}(t)=M_{X_1}(t)M_{X_2}(t) \tag{5d}
+\]
+
+\textbf{Percentile}
+\[
+F(\pi_p)=p \tag{6}
+\]
+
+\textbf{Normal Transform}
+If $X\sim N(\mu,\sigma^2)$ then
+\[
+Y=aX+b \sim N(a\mu+b, a^2\sigma^2) \tag{7}
+\]
+
+\textbf{Independence}
+\[
+X \perp\!\!\perp Y \iff f(x,y)=f(x)f(y) \tag{8}
+\]
+
+\textbf{Covariance}
+\[
+\mathrm{Cov}[W+X, Y+Z] = \mathrm{Cov}[W,Y]+\mathrm{Cov}[X,Z]+\mathrm{Cov}[W,Z]+\mathrm{Cov}[X,Y] \tag{9}
+\]
+
+\textbf{Correlation}
+\[
+\rho = \frac{\sigma_{XY}}{\sigma_X \sigma_Y} \tag{10}
+\]
+
+\textbf{Linear Combination of Independent Normals}
+\[
+Y=\sum_{i=1}^n c_i X_i
+\sim N\left(\sum c_i\mu_i,\;\sum c_i^2 \sigma_i^2\right)
+\]
+
+\textbf{IID Mean and Variance}
+\[
+E[\bar{X}] = E[X], \qquad \mathrm{Var}(\bar{X})=\frac{\mathrm{Var}(X)}{n} \tag{11}
+\]
+
+\textbf{CLT}
+\[
+\bar{X} \approx N\left(\mu, \frac{\sigma^2}{n}\right) \tag{12}
+\]
+
+\textbf{Quadratic Formula}
+\[
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} \tag{13}
+\]
+
+\textbf{Common PDFs}
+Exponential:
+\[
+f(x)=\frac{1}{\theta}e^{-x/\theta}
+\]
+Gamma:
+\[
+f(x)=\frac{1}{\Gamma(\alpha)\theta^\alpha}x^{\alpha-1}e^{-x/\theta}
+\]
+Normal:
+\[
+f(x)=\frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+\]
+Poisson:
+\[
+f(x)=\frac{\lambda^x e^{-\lambda}}{x!}
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%  PART 3 FORMULA SHEET  %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Part 3 Exam 3 Formula Sheet}
+
+\textbf{Expected Value}
+\[
+E[X]=\sum_x x f(x), \qquad E[X]=\int x f(x)\,dx \tag{1}
+\]
+
+\textbf{E[g(X)]}
+\[
+E[g(X)]=\sum_x g(x)f(x), \qquad
+E[g(X)]=\int g(x)f(x)\,dx \tag{2}
+\]
+
+\textbf{Variance}
+\[
+\mathrm{Var}(X)=E[(X-\mu)^2] = E[X^2]-(E[X])^2 \tag{3}
+\]
+
+\textbf{Sample Variance}
+\[
+s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})^2 \tag{4}
+\]
+
+\textbf{IID Mean and Variance}
+\[
+E[\bar{X}] = E[X], \qquad \mathrm{Var}(\bar{X}) = \frac{\mathrm{Var}(X)}{n} \tag{5}
+\]
+
+\textbf{Bias}
+\[
+\mathrm{Bias}(\hat{\theta}) = E[\hat{\theta}] - \theta \tag{6}
+\]
+
+\textbf{MSE}
+\[
+\mathrm{MSE}(\hat{\theta}) = E[(\hat{\theta}-\theta)^2]
+= \mathrm{Var}(\hat{\theta}) + \mathrm{Bias}(\hat{\theta})^2 \tag{7}
+\]
+
+\textbf{Method of Moments}
+\begin{itemize}
+\item Set sample moment equal to population moment.
+\item Solve for the parameter.
+\end{itemize}
+
+\textbf{MLE Steps}
+\begin{itemize}
+\item Write likelihood.
+\item (Optional) Take log.
+\item Take derivative, set to zero, solve.
+\end{itemize}
+
+\textbf{Transformation Method}
+\[
+f_U(u) = f_X(h^{-1}(u))\left|\frac{d}{du}h^{-1}(u)\right| \tag{8}
+\]
+
+\textbf{Important Transformations}
+\[
+\frac{X-\mu}{\sigma/\sqrt{n}} \sim Z, \qquad
+\frac{X-\mu}{s/\sqrt{n}} \sim t_{n-1}, \qquad
+\frac{(n-1)s^2}{\sigma^2} \sim \chi^2_{n-1} \tag{9}
+\]
+
+\textbf{Confidence Intervals}
+Mean:
+\[
+\bar{x} \pm z_{\alpha/2}\frac{\sigma}{\sqrt{n}}, \quad
+\bar{x} \pm t_{n-1,\alpha/2}\frac{s}{\sqrt{n}} \tag{11}
+\]
+Variance:
+\[
+\left(\frac{(n-1)s^2}{\chi^2_{\alpha/2}},\;
+\frac{(n-1)s^2}{\chi^2_{1-\alpha/2}}\right) \tag{12}
+\]
+Proportion:
+\[
+\hat{p} \pm z_{\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}} \tag{13}
+\]
+
+\textbf{Pivotal Method}
+Find a pivotal quantity, set probability equal to $1-\alpha$, solve for parameter.
+
+\textbf{R Distribution Functions}
+\begin{itemize}
+\item dnorm, pnorm, qnorm
+\item dchisq, pchisq, qchisq
+\item dt, pt, qt
+\end{itemize}
+
+\textbf{Quadratic Formula}
+\[
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} \tag{14}
+\]
+
+\end{document}

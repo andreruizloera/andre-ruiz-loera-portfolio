@@ -1,0 +1,150 @@
+\documentclass[12pt,letterpaper]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1.25in,headheight=15pt]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{datetime}
+\usepackage{csquotes}
+\usepackage{titlesec}
+\usepackage{setspace}
+
+% Spacing
+\onehalfspacing
+
+% Chapter and section formatting
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\centering}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+  {\normalfont\Large\bfseries\centering}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}
+  {\thesubsection}{1em}{}
+
+% Spacing around titles
+\titlespacing*{\chapter}{0pt}{50pt}{40pt}
+\titlespacing*{\section}{0pt}{30pt}{20pt}
+\titlespacing*{\subsection}{0pt}{20pt}{10pt}
+
+% Header and footer setup
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\textit{The Myth of Sisyphus}}
+\fancyhead[LO]{\textit{Andre Ruiz Loera}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{note}{Note}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    pdftitle={The Myth of Sisyphus - Commentary},
+    pdfauthor={Andre Ruiz Loera},
+}
+
+\begin{document}
+
+% Title page
+\begin{titlepage}
+\begin{center}
+
+\vspace*{4cm}
+
+{\Huge\bfseries Commentary on}\\[1cm]
+
+{\Huge\bfseries\textit{The Myth of Sisyphus}}\\[0.5cm]
+
+{\large\textit{by Albert Camus}}
+
+\vfill
+
+{\LARGE Andre Ruiz Loera}
+
+\vspace{3cm}
+
+\end{center}
+\end{titlepage}
+
+% Foreword (before TOC)
+\chapter*{Foreword}
+\addcontentsline{toc}{chapter}{Foreword}
+
+Write about how Camus frames the essay as an investigation into the \enquote{absurd,} and how he rejects both religion and traditional philosophy as sufficient answers. Mention that he sets out to examine how a person should live once meaning is gone.
+
+\clearpage
+
+% Table of Contents
+\tableofcontents
+\clearpage
+
+\chapter{An Absurd Reasoning}
+
+\section{Absurdity and Suicide}
+
+Explain that Camus begins with the central question: if life has no meaning, is suicide the logical response? Show how he argues that the absence of meaning is not a reason to die but a starting point for thinking clearly.
+
+\section{The Absurd Wall}
+
+Discuss how human beings desire clarity, order, and explanations, yet the world remains silent and indifferent. Camus calls this clash \enquote{the absurd,} and this section shows where that feeling comes from.
+
+\section{Philosophical Suicide}
+
+Write about Camus' critique of philosophers who escape the absurd with leaps of faith (like Kierkegaard or Jaspers). He thinks turning to God, transcendence, or hope is a way of avoiding reality — a form of \enquote{suicide} of the mind.
+
+\section{The Absurd Freedom}
+
+Explain Camus' conclusion that once we accept life has no ultimate meaning, we become truly free. Without hope, we gain a new kind of freedom, responsibility, and intensity in living.
+
+\chapter{The Absurd Man}
+
+\section{Don Juanism}
+
+Write about Don Juan as an example of someone who lives fully without seeking lasting meaning — he seeks \enquote{quantity} of experiences, not \enquote{quality} or eternal commitments.
+
+\section{Drama}
+
+The actor becomes a symbol of the person who lives many lives but owns none permanently. This section shows how embracing impermanence aligns with absurd freedom.
+
+\section{Conquest}
+
+The conqueror (or rebel) represents action, risk, and engagement with the world despite its meaninglessness. Write how this figure embodies living intensely without illusions.
+
+\chapter{Absurd Creation}
+
+\section{Philosophy and Fiction}
+
+Explain how art can express the absurd but cannot resolve it. Camus argues that creative work becomes meaningful precisely because it has no eternal purpose.
+
+\section{Kirilov}
+
+Write about Kirilov (from Dostoevsky's \textit{Demons}) as someone who tries to \enquote{become God} by committing suicide to prove absolute freedom — an extreme, tragic attempt to escape the absurd.
+
+\section{Dostoevsky}
+
+Discuss how Dostoevsky deeply understands the absurd but ultimately escapes into Christian faith, which Camus sees as another form of philosophical suicide.
+
+\chapter{The Myth of Sisyphus}
+
+Explain that Sisyphus, condemned to repeat a meaningless task forever, symbolizes the human condition. Camus concludes that the right response to absurdity is revolt, consciousness, and inner freedom — \enquote{One must imagine Sisyphus happy.}
+
+\chapter{Personal Reflections}
+
+% Your own thoughts and interpretations
+
+\end{document}

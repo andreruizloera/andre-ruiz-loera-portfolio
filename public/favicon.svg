@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Clean white background like MAA -->
+  <rect width="100" height="100" fill="#ffffff"/>
+
+  <!-- Icosahedron - 20-sided polyhedron (classic math symbol) -->
+  <!-- Deep blue color like MAA logo -->
+
+  <!-- Top pyramid faces -->
+  <polygon points="50,15 35,35 50,30" fill="#003366" stroke="#002244" stroke-width="0.5"/>
+  <polygon points="50,15 50,30 65,35" fill="#004488" stroke="#002244" stroke-width="0.5"/>
+  <polygon points="50,15 65,35 75,25" fill="#0055aa" stroke="#002244" stroke-width="0.5"/>
+  <polygon points="50,15 25,25 35,35" fill="#0055aa" stroke="#002244" stroke-width="0.5"/>
+
+  <!-- Upper middle band -->
+  <polygon points="35,35 50,30 40,45" fill="#003d7a" stroke="#002244" stroke-width="0.5"/>
+  <polygon points="50,30 65,35 60,45" fill="#004d9a" stroke="#002244" stroke-width="0.5"/>
+  <polygon points="65,35 75,25 70,40" fill="#0066cc" stroke="#002244" stroke-width="0.5"/>
+  <polygon points="25,25 35,35 30,40" fill="#0066cc" stroke="#002244" stroke-width="0.5"/>
+
+  <!-- Equator band -->
+  <polygon points="40,45 50,50 35,55" fill="#003d7a" stroke="#002244" stroke-width="0.5"/>
+  <polygon points="50,50 60,45 65,55" fill="#004d9a" stroke="#002244" stroke-width="0.5"/>
+  <polygon points="60,45 70,40 65,55" fill="#0055aa" stroke="#002244" stroke-width="0.5"/>
+  <polygon points="30,40 35,55 25,50" fill="#0055aa" stroke="#002244" stroke-width="0.5"/>
+
+  <!-- Lower middle band -->
+  <polygon points="35,55 50,50 40,65" fill="#004488" stroke="#002244" stroke-width="0.5"/>
+  <polygon points="50,50 65,55 60,65" fill="#003366" stroke="#002244" stroke-width="0.5"/>
+  <polygon points="65,55 70,60 60,65" fill="#004d9a" stroke="#002244" stroke-width="0.5"/>
+  <polygon points="25,50 35,55 30,60" fill="#004d9a" stroke="#002244" stroke-width="0.5"/>
+
+  <!-- Bottom pyramid -->
+  <polygon points="40,65 50,85 35,70" fill="#003366" stroke="#002244" stroke-width="0.5"/>
+  <polygon points="50,85 60,65 65,70" fill="#004488" stroke="#002244" stroke-width="0.5"/>
+  <polygon points="60,65 70,60 65,70" fill="#0055aa" stroke="#002244" stroke-width="0.5"/>
+  <polygon points="30,60 35,70 25,65" fill="#0055aa" stroke="#002244" stroke-width="0.5"/>
+
+  <!-- Bottom tip faces -->
+  <polygon points="50,85 35,70 25,65" fill="#004d9a" stroke="#002244" stroke-width="0.5"/>
+  <polygon points="50,85 65,70 75,65" fill="#003d7a" stroke="#002244" stroke-width="0.5"/>
+</svg>
