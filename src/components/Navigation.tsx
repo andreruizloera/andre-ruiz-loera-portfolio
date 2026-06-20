@@ -13,6 +13,7 @@ const Navigation = () => {
     { path: "/research", label: "Research" },
     { path: "/reading-notes", label: "Academic Notes" },
     { path: "/projects", label: "Projects" },
+    { path: "/blog", label: "Blog" },
     { path: "/cv", label: "CV" },
     { path: "/contact", label: "Contact" },
   ];
